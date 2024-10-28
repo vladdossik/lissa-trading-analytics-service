@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CandlesDto {
-    List<Candle> candles;
+    private List<Candle> candles;
 }

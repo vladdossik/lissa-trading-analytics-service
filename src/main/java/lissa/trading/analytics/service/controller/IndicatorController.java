@@ -1,7 +1,5 @@
 package lissa.trading.analytics.service.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.service.indicator.IndicatorService;
 import lissa.trading.analytics.service.tinkoff.dto.TinkoffCandlesRequestDto;
@@ -14,15 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/api/analytics/indicators")
-@Tag(name = "Indicator", description = "Позволяет получить технические индикаторы для инструментов")
+@RequestMapping("/v1/analytics/indicators")
 @RequiredArgsConstructor
 public class IndicatorController {
     private final IndicatorService indicatorService;
 
     @PostMapping
-    @Operation(summary = "Получить технические индикаторы для инструмента",
-            description = "Позволяет получить технические индикаторы для инструментов")
     public IndicatorsDto getIndicators(@RequestBody TinkoffCandlesRequestDto candlesRequestDto) {
         log.info("Requesting for tech. indicators with params: {}", candlesRequestDto);
         return indicatorService.getIndicators(candlesRequestDto);
