@@ -28,6 +28,7 @@ public class IndicatorServiceImpl implements IndicatorService {
 
     @Override
     public IndicatorsDto getIndicators(TinkoffCandlesRequestDto candlesRequestDto) {
+        setTinkoffApiToken();
         log.info("Requesting tinkoff-api-service for candles data to tinkoff-service");
         CandlesDto candles = stockServiceClient.getCandles(candlesRequestDto);
         return indicatorCalculator.calculateIndicators(candles.getCandles(), candlesRequestDto.getInterval());
