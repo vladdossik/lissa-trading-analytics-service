@@ -1,10 +1,6 @@
 package lissa.trading.analytics.service.service.indicator;
 
 import lissa.trading.analytics.service.dto.IndicatorsDto;
-import lissa.trading.analytics.service.exception.NotEnoughDataException;
-import lissa.trading.analytics.service.exception.UnknownIntervalException;
-import lissa.trading.analytics.service.model.Candle;
-import lissa.trading.analytics.service.model.CandleInterval;
 import lissa.trading.analytics.service.tinkoff.dto.CandlesDto;
 import lissa.trading.analytics.service.tinkoff.dto.TinkoffCandlesRequestDto;
 import lissa.trading.analytics.service.tinkoff.dto.TinkoffTokenDto;
@@ -13,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service

@@ -1,6 +1,6 @@
 package lissa.trading.analytics.service.tinkoff.dto;
 
-import lissa.trading.analytics.service.model.CandleInterval;
+import lissa.trading.analytics.service.dto.CandleInterval;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

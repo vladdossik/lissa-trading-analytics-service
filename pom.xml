@@ -11,8 +11,8 @@
 	<groupId>lissa.trading</groupId>
 	<artifactId>analytics-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>LissaTradingAnalyticsService</name>
-	<description>LissaTradingAnalyticsService</description>
+	<name>lissa-trading-analytics-service</name>
+	<description>lissa-trading-analytics-service</description>
 	<url/>
 	<licenses>
 		<license/>

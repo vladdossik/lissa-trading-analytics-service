@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.model;
+package lissa.trading.analytics.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Candle {
+public class CandleDto {
     private long volume;
     private Double open;
     private Double close;

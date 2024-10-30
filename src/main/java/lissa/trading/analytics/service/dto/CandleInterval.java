@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.model;
+package lissa.trading.analytics.service.dto;
 
 public enum CandleInterval {
     CANDLE_INTERVAL_5_MIN,

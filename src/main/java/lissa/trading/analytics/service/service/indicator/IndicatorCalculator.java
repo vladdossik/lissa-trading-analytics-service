@@ -3,8 +3,8 @@ package lissa.trading.analytics.service.service.indicator;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.exception.NotEnoughDataException;
 import lissa.trading.analytics.service.exception.UnknownIntervalException;
-import lissa.trading.analytics.service.model.Candle;
-import lissa.trading.analytics.service.model.CandleInterval;
+import lissa.trading.analytics.service.dto.CandleDto;
+import lissa.trading.analytics.service.dto.CandleInterval;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class IndicatorCalculator {
 
     private static final int PERIOD_RSI = 14;
 
-    public IndicatorsDto calculateIndicators(List<Candle> candles, CandleInterval interval) {
+    public IndicatorsDto calculateIndicators(List<CandleDto> candles, CandleInterval interval) {
         final int periodMaIndicators = getMaPeriod(interval, candles.size());
 
         IndicatorsDto indicatorsDto = new IndicatorsDto();
@@ -29,7 +29,7 @@ public class IndicatorCalculator {
         return indicatorsDto;
     }
 
-    private Double calculateRsi(List<Candle> candles) {
+    private Double calculateRsi(List<CandleDto> candles) {
         log.info("Calculating RSI indicator");
         int candlesSize = candles.size();
         if (candlesSize < PERIOD_RSI + 1) {
@@ -55,14 +55,14 @@ public class IndicatorCalculator {
         return 100 - (100 / (1 + rs));
     }
 
-    private Double calculateEma(List<Candle> candles, int period) {
+    private Double calculateEma(List<CandleDto> candles, int period) {
         log.info("Calculating EMA indicator");
 
         double multiplier = 2.0 / (period + 1);
 
         double sum = candles.stream()
                 .limit(period)
-                .mapToDouble(Candle::getClose)
+                .mapToDouble(CandleDto::getClose)
                 .sum();
 
         double ema = sum / period;
@@ -74,12 +74,12 @@ public class IndicatorCalculator {
         return ema;
     }
 
-    public Double calculateSma(List<Candle> candles, int period) {
+    public Double calculateSma(List<CandleDto> candles, int period) {
         log.info("Calculating SMA indicator");
 
         double sum = candles.stream()
                 .skip(candles.size() - period)
-                .mapToDouble(Candle::getClose)
+                .mapToDouble(CandleDto::getClose)
                 .sum();
 
         return sum / period;

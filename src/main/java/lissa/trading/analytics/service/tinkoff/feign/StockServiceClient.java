@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(value = "StockServiceClient", url = "${integration.rest.tinkoff-api-service-url}/v1/internal")
 public interface StockServiceClient {
 
+    @PostMapping("/set-token")
+    void setTinkoffToken(@RequestBody TinkoffTokenDto tinkoffToken);
+
     @PostMapping("/candles")
     CandlesDto getCandles(@RequestBody TinkoffCandlesRequestDto candlesRequestDto);
 
-    @PostMapping("/set-token")
-    void setTinkoffToken(@RequestBody TinkoffTokenDto tinkoffToken);
 }

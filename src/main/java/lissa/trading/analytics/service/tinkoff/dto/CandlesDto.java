@@ -1,6 +1,6 @@
 package lissa.trading.analytics.service.tinkoff.dto;
 
-import lissa.trading.analytics.service.model.Candle;
+import lissa.trading.analytics.service.dto.CandleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CandlesDto {
-    private List<Candle> candles;
+    private List<CandleDto> candles;
 }
