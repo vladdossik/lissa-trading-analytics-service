@@ -1,0 +1,25 @@
+package lissa.trading.analytics.service.controller;
+
+import lissa.trading.analytics.service.dto.IndicatorsDto;
+import lissa.trading.analytics.service.service.indicator.IndicatorService;
+import lissa.trading.analytics.service.tinkoff.dto.TinkoffCandlesRequestDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
+@RestController
+@RequestMapping("/v1/analytics/indicators")
+@RequiredArgsConstructor
+public class IndicatorController {
+    private final IndicatorService indicatorService;
+
+    @PostMapping
+    public IndicatorsDto getIndicators(@RequestBody TinkoffCandlesRequestDto candlesRequestDto) {
+        log.info("Requesting for tech. indicators with params: {}", candlesRequestDto);
+        return indicatorService.getIndicators(candlesRequestDto);
+    }
+}
