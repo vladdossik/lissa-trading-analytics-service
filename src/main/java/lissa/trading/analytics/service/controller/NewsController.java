@@ -29,7 +29,7 @@ public class NewsController {
             content = @Content(schema = @Schema(implementation = IndicatorsDto.class))
     )
     @GetMapping
-    NewsResponseDto getNews(@RequestParam List<String> keywords){
-        return newsService.getNews(keywords);
+    NewsResponseDto getNews(@RequestParam List<String> tickers){
+        return newsService.getNews(tickers);
     }
 }

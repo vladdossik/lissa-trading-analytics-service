@@ -1,10 +1,14 @@
 package lissa.trading.analytics.service.service.news;
 
 import lissa.trading.analytics.service.client.finam.FinamClient;
+import lissa.trading.analytics.service.client.tinkoff.dto.CompanyNamesDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
+import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.NewsDto;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,24 +17,27 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
+
+    @Value("security.tinkoff.token")
+    private String tinkoffApiToken;
+
     private final FinamClient finamClient;
     private final NewsXmlParser newsXmlParser;
+    private final StockServiceClient stockServiceClient;
 
     @Override
-    public NewsResponseDto getNews(List<String> keywords) {
+    public NewsResponseDto getNews(List<String> tickers) {
         NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
-        return filterNewsByKeywords(unfilteredNews, keywords);
+        setTinkoffApiToken();
+        log.info("Requesting to Tinkoff-service for company names by tickers");
+        CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
+        log.info("Company names: {}", keywords);
+        NewsResponseDto filteredNews =  NewsDataHandler.filterNewsByKeywords(unfilteredNews, keywords.getNames());
+        return NewsDataHandler.removeHtmlTagsFromText(filteredNews);
     }
 
-    public NewsResponseDto filterNewsByKeywords(NewsResponseDto news, List<String> keywords){
-        log.info("Filtering news by keywords: {}", keywords);
-        List<NewsDto> filteredItems = news.getItems().stream()
-                .filter(item -> keywords.stream()
-                        .anyMatch(keyword -> item.getDescription().toLowerCase().contains(keyword.toLowerCase()))
-                )
-                .toList();
-        news.setItems(filteredItems);
-        log.info("Matched news count: {}", filteredItems.size());
-        return news;
+    private void setTinkoffApiToken() {
+        log.info("Requesting tinkoff-api-service for set tinkoff-token");
+        stockServiceClient.setTinkoffToken(new TinkoffTokenDto(tinkoffApiToken));
     }
 }
