@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.service.indicator.IndicatorService;
-import lissa.trading.analytics.service.tinkoff.dto.TinkoffCandlesRequestDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffCandlesRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

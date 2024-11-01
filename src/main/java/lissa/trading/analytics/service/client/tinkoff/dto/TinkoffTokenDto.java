@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.tinkoff.dto;
+package lissa.trading.analytics.service.client.tinkoff.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

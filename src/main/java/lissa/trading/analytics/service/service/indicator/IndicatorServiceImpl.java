@@ -1,10 +1,10 @@
 package lissa.trading.analytics.service.service.indicator;
 
 import lissa.trading.analytics.service.dto.IndicatorsDto;
-import lissa.trading.analytics.service.tinkoff.dto.CandlesDto;
-import lissa.trading.analytics.service.tinkoff.dto.TinkoffCandlesRequestDto;
-import lissa.trading.analytics.service.tinkoff.dto.TinkoffTokenDto;
-import lissa.trading.analytics.service.tinkoff.feign.StockServiceClient;
+import lissa.trading.analytics.service.client.tinkoff.dto.CandlesDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffCandlesRequestDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
+import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

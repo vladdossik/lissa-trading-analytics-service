@@ -1,8 +1,8 @@
-package lissa.trading.analytics.service.tinkoff.feign;
+package lissa.trading.analytics.service.client.tinkoff.feign;
 
-import lissa.trading.analytics.service.tinkoff.dto.CandlesDto;
-import lissa.trading.analytics.service.tinkoff.dto.TinkoffCandlesRequestDto;
-import lissa.trading.analytics.service.tinkoff.dto.TinkoffTokenDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.CandlesDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffCandlesRequestDto;
+import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

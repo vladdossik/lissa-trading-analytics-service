@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.tinkoff.dto;
+package lissa.trading.analytics.service.client.tinkoff.dto;
 
 import lissa.trading.analytics.service.dto.CandleDto;
 import lombok.AllArgsConstructor;

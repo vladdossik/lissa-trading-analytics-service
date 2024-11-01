@@ -23,7 +23,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi userApi() {
+    public GroupedOpenApi analyticsApi() {
         return GroupedOpenApi.builder()
                 .group("analytics")
                 .pathsToMatch("/v1/analytics/**")
