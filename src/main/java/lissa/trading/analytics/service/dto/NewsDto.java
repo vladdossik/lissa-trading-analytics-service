@@ -19,11 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class NewsDto {
     private String title;
-
     private String description;
-
     private LocalDateTime pubDate;
-
     private String url;
 
     @XmlElement(name = "title")

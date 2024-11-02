@@ -37,8 +37,8 @@ public class FinamNewsService implements NewsService {
 
         NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
         log.info("Requesting to Tinkoff-service for company names by tickers");
-        NewsResponseDto filteredNews =  NewsDataHandler.filterNewsByKeywords(unfilteredNews, keywords.getNames());
-        return NewsDataHandler.removeHtmlTagsFromText(filteredNews);
+        NewsResponseDto filteredNews =  NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
+        return NewsDataProcessor.removeHtmlTagsFromText(filteredNews);
     }
 
     private void setTinkoffApiToken() {

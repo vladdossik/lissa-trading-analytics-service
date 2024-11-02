@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RssFeedDto {
-
     private Channel channel;
 
     @XmlElement(name = "channel")
