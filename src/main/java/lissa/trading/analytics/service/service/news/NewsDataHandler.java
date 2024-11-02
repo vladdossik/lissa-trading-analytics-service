@@ -12,7 +12,9 @@ public class NewsDataHandler {
         log.info("Filtering news by keywords: {}", keywords);
         List<NewsDto> filteredItems = news.getItems().stream()
                 .filter(item -> keywords.stream()
-                        .anyMatch(keyword -> item.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+                        .anyMatch(keyword -> item.getDescription()
+                                .toLowerCase()
+                                .contains(keyword.toLowerCase()))
                 )
                 .toList();
         news.setItems(filteredItems);

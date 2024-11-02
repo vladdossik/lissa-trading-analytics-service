@@ -4,7 +4,6 @@ import lissa.trading.analytics.service.client.finam.FinamClient;
 import lissa.trading.analytics.service.client.tinkoff.dto.CompanyNamesDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
-import lissa.trading.analytics.service.dto.NewsDto;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
 
-    @Value("security.tinkoff.token")
+    @Value("${security.tinkoff.token}")
     private String tinkoffApiToken;
 
     private final FinamClient finamClient;
@@ -27,11 +26,17 @@ public class FinamNewsService implements NewsService {
 
     @Override
     public NewsResponseDto getNews(List<String> tickers) {
-        NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
         setTinkoffApiToken();
-        log.info("Requesting to Tinkoff-service for company names by tickers");
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
         log.info("Company names: {}", keywords);
+
+        if (keywords.getNames().isEmpty()){
+            log.info("There is no keywords in entry, method is closing");
+            return new NewsResponseDto(List.of());
+        }
+
+        NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
+        log.info("Requesting to Tinkoff-service for company names by tickers");
         NewsResponseDto filteredNews =  NewsDataHandler.filterNewsByKeywords(unfilteredNews, keywords.getNames());
         return NewsDataHandler.removeHtmlTagsFromText(filteredNews);
     }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class IndicatorServiceImpl implements IndicatorService {
-    @Value("security.tinkoff.token")
+    @Value("${security.tinkoff.token}")
     private String tinkoffApiToken;
 
     private final StockServiceClient stockServiceClient;
