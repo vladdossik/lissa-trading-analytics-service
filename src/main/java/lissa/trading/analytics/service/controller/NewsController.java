@@ -30,6 +30,7 @@ public class NewsController {
             description = "Возвращает финансовые новости по запрошенным компаниям")
     @ApiResponse(responseCode = "200", description = "Новости успешно получены",
             content = @Content(schema = @Schema(implementation = IndicatorsDto.class)))
+    @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping
     NewsResponseDto getNews(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting getNews endpoint with params: {}", tickers);

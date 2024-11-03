@@ -5,6 +5,7 @@ import lissa.trading.analytics.service.client.tinkoff.dto.CompanyNamesDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
+import lissa.trading.analytics.service.exception.EmptyTickersListException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,11 @@ public class FinamNewsService implements NewsService {
 
     @Override
     public NewsResponseDto getNews(List<String> tickers) {
+        if (tickers.isEmpty()){
+            log.info("User requested news with empty tickers list");
+            throw new EmptyTickersListException("The list of tickers can't be empty");
+        }
+
         setTinkoffApiToken();
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
         log.info("Company names: {}", keywords);
