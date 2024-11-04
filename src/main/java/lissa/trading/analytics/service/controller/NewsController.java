@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lissa.trading.analytics.service.service.news.NewsService;
@@ -32,7 +33,7 @@ public class NewsController {
             content = @Content(schema = @Schema(implementation = IndicatorsDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping
-    NewsResponseDto getNews(@RequestParam @NotEmpty List<String> tickers) {
+    NewsResponseDto getNews(@RequestParam @NotNull @NotEmpty List<String> tickers) {
         log.info("Requesting getNews endpoint with params: {}", tickers);
         return newsService.getNews(tickers);
     }

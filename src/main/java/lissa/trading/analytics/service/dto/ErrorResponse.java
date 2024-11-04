@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.exception;
+package lissa.trading.analytics.service.dto;
 
 import lombok.Data;
 
