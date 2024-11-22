@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("ideasService")
 @Slf4j
 @RequiredArgsConstructor
 public class TinkoffPulseIdeasService implements TinkoffPulseService<List<StockIdeasResponseDto>> {

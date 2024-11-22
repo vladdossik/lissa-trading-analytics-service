@@ -6,11 +6,10 @@ import jakarta.validation.constraints.NotEmpty;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ideas.StockIdeasResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsResponseDto;
-import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseBrandInfoService;
-import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseIdeasService;
-import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseNewsService;
+import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,9 +23,14 @@ import java.util.List;
 @Slf4j
 public class TinkoffPulseController {
 
-    private final TinkoffPulseNewsService tinkoffPulseNewsService;
-    private final TinkoffPulseIdeasService tinkoffPulseIdeasService;
-    private final TinkoffPulseBrandInfoService tinkoffPulseBrandInfoService;
+    @Qualifier("newsService")
+    private final TinkoffPulseService<List<StockNewsResponseDto>> tinkoffPulseNewsService;
+
+    @Qualifier("ideasService")
+    private final TinkoffPulseService<List<StockIdeasResponseDto>> tinkoffPulseIdeasService;
+
+    @Qualifier("brandInfoService")
+    private final TinkoffPulseService<List<BrandInfoResponseDto>> tinkoffPulseBrandInfoService;
 
     @Operation(summary = "Получить новости по тикерам из Tinkoff Pulse",
             description = "Возвращает новости по запрошенным тикерам")

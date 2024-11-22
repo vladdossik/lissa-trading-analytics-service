@@ -15,13 +15,14 @@ import reactor.core.publisher.Flux;
 @Component
 public class TinkoffPulseClient {
 
-    private final WebClient webClient = WebClient.create();
     @Value("${security.tinkoff.pulse.stock-news-url}")
     private String pulseStocksNewsUrl;
     @Value("${security.tinkoff.pulse.brands-info-url}")
     private String pulseBrandsInfoUrl;
     @Value("${security.tinkoff.pulse.stock-ideas-url}")
     private String pulseStockIdeasUrl;
+
+    private final WebClient webClient = WebClient.create();
 
     public String getStockIdeas(String url) {
         return webClient.get()

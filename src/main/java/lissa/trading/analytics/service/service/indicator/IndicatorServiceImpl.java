@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class IndicatorServiceImpl implements IndicatorService {
-    private final StockServiceClient stockServiceClient;
-    private final IndicatorCalculator indicatorCalculator;
+
     @Value("${security.tinkoff.token}")
     private String tinkoffApiToken;
+
+    private final StockServiceClient stockServiceClient;
+    private final IndicatorCalculator indicatorCalculator;
 
     @Override
     public IndicatorsDto getIndicators(TinkoffCandlesRequestDto candlesRequestDto) {

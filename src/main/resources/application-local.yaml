@@ -24,7 +24,3 @@ investing:
 logging:
   level:
     feign: DEBUG
-
-spring:
-  codec:
-    max-in-memory-size: 1024KB

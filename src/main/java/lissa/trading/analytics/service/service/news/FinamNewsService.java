@@ -17,11 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
 
+    @Value("${security.tinkoff.token}")
+    private String tinkoffApiToken;
+
     private final FinamClient finamClient;
     private final NewsXmlParser newsXmlParser;
     private final StockServiceClient stockServiceClient;
-    @Value("${security.tinkoff.token}")
-    private String tinkoffApiToken;
 
     @Override
     public NewsResponseDto getNews(List<String> tickers) {

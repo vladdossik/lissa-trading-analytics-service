@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service("brandInfoService")
 @RequiredArgsConstructor
 @Slf4j
 public class TinkoffPulseBrandInfoService implements TinkoffPulseService<List<BrandInfoResponseDto>> {

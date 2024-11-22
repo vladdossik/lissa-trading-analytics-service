@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
-@Service
+@Service("newsService")
 public class TinkoffPulseNewsService implements TinkoffPulseService<List<StockNewsResponseDto>> {
 
     private final TinkoffPulseClient tinkoffPulseClient;
