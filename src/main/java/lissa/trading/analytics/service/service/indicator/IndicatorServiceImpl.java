@@ -1,10 +1,10 @@
 package lissa.trading.analytics.service.service.indicator;
 
-import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.CandlesDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffCandlesRequestDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
+import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,11 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class IndicatorServiceImpl implements IndicatorService {
-    @Value("${security.tinkoff.token}")
-    private String tinkoffApiToken;
-
     private final StockServiceClient stockServiceClient;
     private final IndicatorCalculator indicatorCalculator;
+    @Value("${security.tinkoff.token}")
+    private String tinkoffApiToken;
 
     @Override
     public IndicatorsDto getIndicators(TinkoffCandlesRequestDto candlesRequestDto) {

@@ -13,16 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Slf4j
-@Service
+@Service("finamService")
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
-
-    @Value("${security.tinkoff.token}")
-    private String tinkoffApiToken;
 
     private final FinamClient finamClient;
     private final NewsXmlParser newsXmlParser;
     private final StockServiceClient stockServiceClient;
+    @Value("${security.tinkoff.token}")
+    private String tinkoffApiToken;
 
     @Override
     public NewsResponseDto getNews(List<String> tickers) {
@@ -30,14 +29,14 @@ public class FinamNewsService implements NewsService {
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
         log.info("Company names: {}", keywords);
 
-        if (keywords.getNames().isEmpty()){
+        if (keywords.getNames().isEmpty()) {
             log.info("There is no keywords in entry, method is closing");
             return new NewsResponseDto(List.of());
         }
 
         NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
         log.info("Requesting to Tinkoff-service for company names by tickers");
-        NewsResponseDto filteredNews =  NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
+        NewsResponseDto filteredNews = NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
         return NewsDataProcessor.removeHtmlTagsFromText(filteredNews);
     }
 

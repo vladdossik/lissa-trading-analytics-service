@@ -1,10 +1,10 @@
 package lissa.trading.analytics.service.service.indicator;
 
+import lissa.trading.analytics.service.dto.CandleDto;
+import lissa.trading.analytics.service.dto.CandleInterval;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.exception.NotEnoughDataException;
 import lissa.trading.analytics.service.exception.UnknownIntervalException;
-import lissa.trading.analytics.service.dto.CandleDto;
-import lissa.trading.analytics.service.dto.CandleInterval;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
