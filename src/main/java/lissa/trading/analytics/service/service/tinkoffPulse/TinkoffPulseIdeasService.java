@@ -2,7 +2,7 @@ package lissa.trading.analytics.service.service.tinkoffPulse;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lissa.trading.analytics.service.client.gpt.TinkoffPulseClient;
+import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ideas.StockIdeasDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ideas.StockIdeasResponseDto;
 import lombok.RequiredArgsConstructor;

@@ -11,21 +11,32 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class WebClientConfig implements WebFluxConfigurer {
+
     @Value("${integration.rest.finam-news-rss-url}")
     private String finamRssUrl;
 
-    @Bean
-    public WebClient finamWebClient() {
-        final int maxInMemorySize = 16 * 1024 * 1024;
-        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-                .codecs(configurer -> configurer.defaultCodecs()
-                        .maxInMemorySize(maxInMemorySize))
-                .build();
+    private static final int MAX_IN_MEMORY_SIZE = 16 * 1024 * 1024;
 
+    @Bean("finamWebClient")
+    public WebClient finamWebClient() {
         return WebClient.builder()
                 .baseUrl(finamRssUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE)
-                .exchangeStrategies(exchangeStrategies)
+                .exchangeStrategies(configureExchangeStrategies())
+                .build();
+    }
+
+    @Bean("tinkoffPulseWebClient")
+    public WebClient tinkoffPulseWebClient() {
+        return WebClient.builder()
+                .exchangeStrategies(configureExchangeStrategies())
+                .build();
+    }
+
+    private ExchangeStrategies configureExchangeStrategies() {
+        return ExchangeStrategies.builder()
+                .codecs(configurer -> configurer.defaultCodecs()
+                        .maxInMemorySize(MAX_IN_MEMORY_SIZE))
                 .build();
     }
 }

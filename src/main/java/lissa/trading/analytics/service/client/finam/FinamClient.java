@@ -2,6 +2,7 @@ package lissa.trading.analytics.service.client.finam;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -9,6 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class FinamClient {
+
+    @Qualifier("finamWebClient")
     private final WebClient finamWebClient;
 
     public String getFinamRssFeed() {

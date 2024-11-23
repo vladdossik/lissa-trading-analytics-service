@@ -2,7 +2,7 @@ package lissa.trading.analytics.service.service.tinkoffPulse;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lissa.trading.analytics.service.client.gpt.TinkoffPulseClient;
+import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -59,27 +59,18 @@ public class TinkoffPulseBrandInfoService implements TinkoffPulseService<List<Br
     }
 
     private List<BrandInfoDto> getAllBrandInfo() {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Flux<DataBuffer> dataBufferFlux = tinkoffPulseClient.getBrandsInfo();
-
-            String result = DataBufferUtils.join(dataBufferFlux)
-                    .map(dataBuffer -> {
-                        String json = dataBuffer.toString(StandardCharsets.UTF_8);
-                        DataBufferUtils.release(dataBuffer);
-                        return json;
-                    })
-                    .block();
-
-            return objectMapper.readValue(
-                    objectMapper.readTree(result)
+            String json = tinkoffPulseClient.getBrandsInfo();
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(
+                    mapper.readTree(json)
                             .path("payload")
                             .path("brands")
                             .toString(),
                     new TypeReference<>() {
                     });
         } catch (Exception e) {
-            log.error("Error parsing brands info", e);
+            log.error("Error parsing news", e);
             throw new RuntimeException(e);
         }
     }

@@ -1,13 +1,12 @@
-package lissa.trading.analytics.service.client.gpt;
+package lissa.trading.analytics.service.client.tinkoff.pulse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +21,11 @@ public class TinkoffPulseClient {
     @Value("${security.tinkoff.pulse.stock-ideas-url}")
     private String pulseStockIdeasUrl;
 
-    private final WebClient webClient = WebClient.create();
+    @Qualifier("tinkoffPulseWebClient")
+    private final WebClient tinkoffPulseWebClient;
 
     public String getStockIdeas(String url) {
-        return webClient.get()
+        return tinkoffPulseWebClient.get()
                 .uri(pulseStockIdeasUrl + url)
                 .retrieve()
                 .bodyToMono(String.class)
@@ -33,17 +33,18 @@ public class TinkoffPulseClient {
     }
 
     public String getStockNews() {
-        return webClient.get()
+        return tinkoffPulseWebClient.get()
                 .uri(pulseStocksNewsUrl)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
     }
 
-    public Flux<DataBuffer> getBrandsInfo() {
-        return webClient.get()
+    public String getBrandsInfo() {
+        return tinkoffPulseWebClient.get()
                 .uri(pulseBrandsInfoUrl)
                 .retrieve()
-                .bodyToFlux(DataBuffer.class);
+                .bodyToMono(String.class)
+                .block();
     }
 }
