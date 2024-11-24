@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PayloadBrandInfoDto {
-    List<BrandInfoDto> brands;
+    private List<BrandInfoDto> brands;
 }
