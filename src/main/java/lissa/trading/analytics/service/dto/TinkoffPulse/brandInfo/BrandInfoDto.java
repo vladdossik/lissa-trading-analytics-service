@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class BrandInfoDto {
     private List<String> tickers;
     private BrandLinkDto externalLinks;

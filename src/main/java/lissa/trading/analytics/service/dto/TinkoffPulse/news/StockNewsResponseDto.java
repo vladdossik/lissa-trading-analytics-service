@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class StockNewsResponseDto implements ResponseDto {
     private String message;
     private List<StockNewsDto> items;

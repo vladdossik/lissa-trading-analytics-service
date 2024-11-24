@@ -1,9 +1,14 @@
 package lissa.trading.analytics.service.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotEmpty;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeasResponseDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsResponseDto;
 import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +37,9 @@ public class TinkoffPulseController {
 
     @Operation(summary = "Получить новости по тикерам из Tinkoff Pulse",
             description = "Возвращает новости по запрошенным тикерам")
-    @ApiResponse(responseCode = "200", description = "Новости успешно получены")
+    @ApiResponse(responseCode = "200", description = "Новости успешно получены",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = StockNewsResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("news")
     List<? extends ResponseDto> getTinkoffPulseNews(@RequestParam @NotEmpty List<String> tickers) {
@@ -42,7 +49,9 @@ public class TinkoffPulseController {
 
     @Operation(summary = "Получить идеи по тикерам из Tinkoff Pulse",
             description = "Возвращает идеи по запрошенным тикерам")
-    @ApiResponse(responseCode = "200", description = "Идеи успешно получены")
+    @ApiResponse(responseCode = "200", description = "Идеи успешно получены",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = StockIdeasResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("ideas")
     List<? extends ResponseDto> getTinkoffPulseIdeas(@RequestParam @NotEmpty List<String> tickers) {
@@ -52,7 +61,9 @@ public class TinkoffPulseController {
 
     @Operation(summary = "Получить информацию о компаниях по тикерам из Tinkoff Pulse",
             description = "Возвращает информацию о компаниях по запрошенным тикерам")
-    @ApiResponse(responseCode = "200", description = "Информация успешно получена")
+    @ApiResponse(responseCode = "200", description = "Информация успешно получена",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = BrandInfoResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("brand-info")
     List<? extends ResponseDto> getTinkoffPulseBrandInfo(@RequestParam @NotEmpty List<String> tickers) {
