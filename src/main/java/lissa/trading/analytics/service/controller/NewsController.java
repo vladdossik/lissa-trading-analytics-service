@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/v1/analytics/news")
 public class NewsController {
 
-    private final NewsService finamNewsService;
+    private final NewsService newsService;
 
     @Operation(summary = "Получить новости по компаниям",
             description = "Возвращает финансовые новости по запрошенным компаниям")
@@ -34,8 +34,8 @@ public class NewsController {
             content = @Content(schema = @Schema(implementation = IndicatorsDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("finam")
-    NewsResponseDto getFinamNews(@RequestParam @NotEmpty List<String> tickers, @RequestParam @NotBlank String source) {
+    NewsResponseDto getNews(@RequestParam @NotEmpty List<String> tickers, @RequestParam @NotBlank String source) {
         log.info("Requesting getNews from Finam endpoint with params: {}", tickers);
-        return finamNewsService.getNews(source, tickers);
+        return newsService.getNews(source, tickers);
     }
 }
