@@ -7,12 +7,8 @@ import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +17,7 @@ import java.util.Map;
 @Service("brandInfoService")
 @RequiredArgsConstructor
 @Slf4j
-public class TinkoffPulseBrandInfoService implements TinkoffPulseService<List<BrandInfoResponseDto>> {
+public class TinkoffPulseBrandInfoService implements TinkoffPulseService {
 
     private final TinkoffPulseClient tinkoffPulseClient;
 
@@ -49,29 +45,12 @@ public class TinkoffPulseBrandInfoService implements TinkoffPulseService<List<Br
     private Map<String, BrandInfoDto> processBrandsByTicker() {
         Map<String, BrandInfoDto> brandsByTicker = new HashMap<>();
 
-        for (BrandInfoDto brand : getAllBrandInfo()) {
+        for (BrandInfoDto brand : tinkoffPulseClient.getBrandsInfo().getPayload().getBrands()) {
             for (String ticker : brand.getTickers()) {
                 brandsByTicker.put(ticker, brand);
             }
         }
 
         return brandsByTicker;
-    }
-
-    private List<BrandInfoDto> getAllBrandInfo() {
-        try {
-            String json = tinkoffPulseClient.getBrandsInfo();
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(
-                    mapper.readTree(json)
-                            .path("payload")
-                            .path("brands")
-                            .toString(),
-                    new TypeReference<>() {
-                    });
-        } catch (Exception e) {
-            log.error("Error parsing news", e);
-            throw new RuntimeException(e);
-        }
     }
 }

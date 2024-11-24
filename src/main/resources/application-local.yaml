@@ -7,19 +7,17 @@ security:
   tinkoff:
     # Paste your tinkoff-invest token for test this service
     token: t.39JOqhLm23IQgAvCIvDZLT3poEOYqBYmk6aUyRAPIw-ixlyMVxojfB1zuoHmjGkfa6MWUH7ZuIZvlfLmcGx5lA
-    pulse:
-      brands-info-url: https://www.tbank.ru/api/trading/symbols/brands?sessionId=bQNqf8OaUMb35kPn0LvAtX3QwMFoO7zC.m1-prod-api-138&appName=web&appVersion=1.480.0&origin=web
-      stock-news-url: https://www.tbank.ru/api/invest-gw/social/post/feed/v1/feed?sessionId=29II0ESsZFHp6qT3IkFgwkpVuJQcEfWB.m1-prod-api-138&appName=invest&appVersion=1.480.0&origin=web&platform=web&limit=9999999
-      stock-ideas-url: https://www.tbank.ru/api/invest/smartfeed-public/v1/feed/api/ideas?sessionId=1DODhdaBBHo63oINhpMXVlbKL60fMp7h.m1-prod-api-138&appName=web&appVersion=1.479.0&origin=web&limit=100&ticker=
 
 integration:
   rest:
     tinkoff-api-service-url: http://localhost:8082
     finam-news-rss-url: https://www.finam.ru/analysis/conews/rsspoint/
-
-investing:
-  russian-stocks-url: https://ru.investing.com
-  russian-stocks-json-url: https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id%2Cname%2Csymbol%2CisCFD%2Chigh%2Clow%2Clast%2ClastPairDecimal%2Cchange%2CchangePercent%2Cvolume%2Ctime%2CisOpen%2Curl%2Cflag%2CcountryNameTranslated%2CexchangeId%2CperformanceDay%2CperformanceWeek%2CperformanceMonth%2CperformanceYtd%2CperformanceYear%2Cperformance3Year%2CtechnicalHour%2CtechnicalDay%2CtechnicalWeek%2CtechnicalMonth%2CavgVolume%2CfundamentalMarketCap%2CfundamentalRevenue%2CfundamentalRatio%2CfundamentalBeta%2CpairType&country-id=56&filter-domain=&page=0&page-size=300&limit=0&include-additional-indices=false&include-major-indices=false&include-other-indices=false&include-primary-sectors=false&include-market-overview=false
+  pulse:
+    brands-info-url: https://www.tbank.ru/api/trading/symbols/brands?sessionId=bQNqf8OaUMb35kPn0LvAtX3QwMFoO7zC.m1-prod-api-138&appName=web&appVersion=1.480.0&origin=web
+    stock-news-url: https://www.tbank.ru/api/invest-gw/social/post/feed/v1/feed?sessionId=29II0ESsZFHp6qT3IkFgwkpVuJQcEfWB.m1-prod-api-138&appName=invest&appVersion=1.480.0&origin=web&platform=web&limit=9999999
+    stock-ideas-url: https://www.tbank.ru/api/invest/smartfeed-public/v1/feed/api/ideas?sessionId=1DODhdaBBHo63oINhpMXVlbKL60fMp7h.m1-prod-api-138&appName=web&appVersion=1.479.0&origin=web&limit=100&ticker=
+    news-page-url: https://www.tbank.ru/invest/social/profile/
+    idea-page-url: https://www.tbank.ru/invest/ideas/
 
 logging:
   level:

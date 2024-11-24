@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BrandLinkDto {
-    private String main;
+public class FullBrandInfoDto {
+    private PayloadBrandInfoDto payload;
 }

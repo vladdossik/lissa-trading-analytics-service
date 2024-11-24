@@ -17,7 +17,7 @@ public class WebClientConfig implements WebFluxConfigurer {
 
     private static final int MAX_IN_MEMORY_SIZE = 16 * 1024 * 1024;
 
-    @Bean("finamWebClient")
+    @Bean
     public WebClient finamWebClient() {
         return WebClient.builder()
                 .baseUrl(finamRssUrl)
@@ -26,7 +26,7 @@ public class WebClientConfig implements WebFluxConfigurer {
                 .build();
     }
 
-    @Bean("tinkoffPulseWebClient")
+    @Bean
     public WebClient tinkoffPulseWebClient() {
         return WebClient.builder()
                 .exchangeStrategies(configureExchangeStrategies())

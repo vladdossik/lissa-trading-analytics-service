@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Service("finamService")
 @RequiredArgsConstructor
-public class FinamNewsService implements NewsService {
+public class FinamNewsService {
 
     @Value("${security.tinkoff.token}")
     private String tinkoffApiToken;
@@ -24,7 +24,6 @@ public class FinamNewsService implements NewsService {
     private final NewsXmlParser newsXmlParser;
     private final StockServiceClient stockServiceClient;
 
-    @Override
     public NewsResponseDto getNews(List<String> tickers) {
         setTinkoffApiToken();
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);

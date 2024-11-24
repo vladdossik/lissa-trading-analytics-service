@@ -3,9 +3,7 @@ package lissa.trading.analytics.service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotEmpty;
-import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
-import lissa.trading.analytics.service.dto.TinkoffPulse.ideas.StockIdeasResponseDto;
-import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsResponseDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,20 +22,20 @@ import java.util.List;
 public class TinkoffPulseController {
 
     @Qualifier("newsService")
-    private final TinkoffPulseService<List<StockNewsResponseDto>> tinkoffPulseNewsService;
+    private final TinkoffPulseService tinkoffPulseNewsService;
 
     @Qualifier("ideasService")
-    private final TinkoffPulseService<List<StockIdeasResponseDto>> tinkoffPulseIdeasService;
+    private final TinkoffPulseService tinkoffPulseIdeasService;
 
     @Qualifier("brandInfoService")
-    private final TinkoffPulseService<List<BrandInfoResponseDto>> tinkoffPulseBrandInfoService;
+    private final TinkoffPulseService tinkoffPulseBrandInfoService;
 
     @Operation(summary = "Получить новости по тикерам из Tinkoff Pulse",
             description = "Возвращает новости по запрошенным тикерам")
     @ApiResponse(responseCode = "200", description = "Новости успешно получены")
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("news")
-    List<StockNewsResponseDto> getTinkoffPulseNews(@RequestParam @NotEmpty List<String> tickers) {
+    List<? extends ResponseDto> getTinkoffPulseNews(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting news from Tinkoff Pulse with params: {}", tickers);
         return tinkoffPulseNewsService.getData(tickers);
     }
@@ -47,17 +45,17 @@ public class TinkoffPulseController {
     @ApiResponse(responseCode = "200", description = "Идеи успешно получены")
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("ideas")
-    List<StockIdeasResponseDto> getTinkoffPulseIdeas(@RequestParam @NotEmpty List<String> tickers) {
+    List<? extends ResponseDto> getTinkoffPulseIdeas(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting ideas from Tinkoff Pulse with params: {}", tickers);
         return tinkoffPulseIdeasService.getData(tickers);
     }
 
-    @Operation(summary = "Получить информации о компаниях по тикерам из Tinkoff Pulse",
+    @Operation(summary = "Получить информацию о компаниях по тикерам из Tinkoff Pulse",
             description = "Возвращает информацию о компаниях по запрошенным тикерам")
     @ApiResponse(responseCode = "200", description = "Информация успешно получена")
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("brand-info")
-    List<BrandInfoResponseDto> getTinkoffPulseBrandInfo(@RequestParam @NotEmpty List<String> tickers) {
+    List<? extends ResponseDto> getTinkoffPulseBrandInfo(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting brand info from Tinkoff Pulse with params: {}", tickers);
         return tinkoffPulseBrandInfoService.getData(tickers);
     }

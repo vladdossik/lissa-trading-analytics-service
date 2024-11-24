@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo;
+package lissa.trading.analytics.service.dto.TinkoffPulse.news;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BrandLinkDto {
-    private String main;
+public class FullNewsDto {
+    private PayloadNewsDto payload;
 }

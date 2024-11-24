@@ -1,7 +1,8 @@
-package lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo;
+package lissa.trading.analytics.service.dto.TinkoffPulse.idea;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BrandLinkDto {
-    private String main;
+public class BrokerIdeaDto {
+    private String id;
+    private String name;
+    private Double accuracy;
 }

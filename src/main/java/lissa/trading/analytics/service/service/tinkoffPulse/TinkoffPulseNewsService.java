@@ -1,13 +1,12 @@
 package lissa.trading.analytics.service.service.tinkoffPulse;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.NewsTickerDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,14 +18,21 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @Service("newsService")
-public class TinkoffPulseNewsService implements TinkoffPulseService<List<StockNewsResponseDto>> {
+public class TinkoffPulseNewsService implements TinkoffPulseService {
+
+    @Value("${integration.pulse.news-page-url}")
+    private String newsPageUrl;
 
     private final TinkoffPulseClient tinkoffPulseClient;
 
     @Override
     public List<StockNewsResponseDto> getData(List<String> tickers) {
         log.info("Getting news data from Tinkoff Pulse");
-        List<StockNewsDto> newsDtoList = getAllNews();
+
+        List<StockNewsDto> newsDtoList = tinkoffPulseClient
+                .getStockNews()
+                .getPayload()
+                .getItems();
         Map<String, List<StockNewsDto>> newsMap = processNewsByTickers(newsDtoList);
 
         List<StockNewsResponseDto> responseDtoList = new ArrayList<>();
@@ -52,29 +58,11 @@ public class TinkoffPulseNewsService implements TinkoffPulseService<List<StockNe
         Map<String, List<StockNewsDto>> newsMap = new HashMap<>();
         for (StockNewsDto news : allNews) {
             List<NewsTickerDto> tickers = news.getContent().getInstruments();
-            news.setUrl("https://www.tbank.ru/invest/social/profile/"
-                    + news.getOwner().getNickname() + "/" + news.getId());
+            news.setUrl(newsPageUrl + news.getOwner().getNickname() + "/" + news.getId());
             for (NewsTickerDto ticker : tickers) {
                 newsMap.computeIfAbsent(ticker.getTicker(), k -> new ArrayList<>()).add(news);
             }
         }
         return newsMap;
-    }
-
-    private List<StockNewsDto> getAllNews() {
-        try {
-            String json = tinkoffPulseClient.getStockNews();
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(
-                    mapper.readTree(json)
-                            .path("payload")
-                            .path("items")
-                            .toString(),
-                    new TypeReference<>() {
-                    });
-        } catch (Exception e) {
-            log.error("Error parsing news", e);
-            throw new RuntimeException(e);
-        }
     }
 }

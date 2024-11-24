@@ -1,4 +1,4 @@
-package lissa.trading.analytics.service.dto.TinkoffPulse.ideas;
+package lissa.trading.analytics.service.dto.TinkoffPulse.idea;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BrokerIdeaDto {
-    private String id;
+public class TickerIdeaDto {
+    private String ticker;
     private String name;
-    private Double accuracy;
+    private Double price;
 }

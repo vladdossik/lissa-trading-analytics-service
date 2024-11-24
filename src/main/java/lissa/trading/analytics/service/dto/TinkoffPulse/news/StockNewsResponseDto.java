@@ -1,6 +1,7 @@
 package lissa.trading.analytics.service.dto.TinkoffPulse.news;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StockNewsResponseDto {
+public class StockNewsResponseDto implements ResponseDto {
     private String message;
     private List<StockNewsDto> items;
 }

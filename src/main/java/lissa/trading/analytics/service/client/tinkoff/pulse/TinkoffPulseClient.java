@@ -1,8 +1,10 @@
 package lissa.trading.analytics.service.client.tinkoff.pulse;
 
+import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.FullBrandInfoDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.idea.FullIdeaDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.news.FullNewsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,37 +16,36 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class TinkoffPulseClient {
 
-    @Value("${security.tinkoff.pulse.stock-news-url}")
+    @Value("${integration.pulse.stock-news-url}")
     private String pulseStocksNewsUrl;
-    @Value("${security.tinkoff.pulse.brands-info-url}")
+    @Value("${integration.pulse.brands-info-url}")
     private String pulseBrandsInfoUrl;
-    @Value("${security.tinkoff.pulse.stock-ideas-url}")
+    @Value("${integration.pulse.stock-ideas-url}")
     private String pulseStockIdeasUrl;
 
-    @Qualifier("tinkoffPulseWebClient")
     private final WebClient tinkoffPulseWebClient;
 
-    public String getStockIdeas(String url) {
+    public FullIdeaDto getStockIdeas(String url) {
         return tinkoffPulseWebClient.get()
                 .uri(pulseStockIdeasUrl + url)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(FullIdeaDto.class)
                 .block();
     }
 
-    public String getStockNews() {
+    public FullNewsDto getStockNews() {
         return tinkoffPulseWebClient.get()
                 .uri(pulseStocksNewsUrl)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(FullNewsDto.class)
                 .block();
     }
 
-    public String getBrandsInfo() {
+    public FullBrandInfoDto getBrandsInfo() {
         return tinkoffPulseWebClient.get()
                 .uri(pulseBrandsInfoUrl)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(FullBrandInfoDto.class)
                 .block();
     }
 }
