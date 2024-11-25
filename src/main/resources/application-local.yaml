@@ -12,6 +12,12 @@ integration:
   rest:
     tinkoff-api-service-url: http://localhost:8082
     finam-news-rss-url: https://www.finam.ru/analysis/conews/rsspoint/
+  pulse:
+    brands-info-url: https://www.tbank.ru/api/trading/symbols/brands?sessionId=bQNqf8OaUMb35kPn0LvAtX3QwMFoO7zC.m1-prod-api-138&appName=web&appVersion=1.480.0&origin=web
+    stock-news-url: https://www.tbank.ru/api/invest-gw/social/post/feed/v1/feed?sessionId=29II0ESsZFHp6qT3IkFgwkpVuJQcEfWB.m1-prod-api-138&appName=invest&appVersion=1.480.0&origin=web&platform=web&limit=9999999
+    stock-ideas-url: https://www.tbank.ru/api/invest/smartfeed-public/v1/feed/api/ideas?sessionId=1DODhdaBBHo63oINhpMXVlbKL60fMp7h.m1-prod-api-138&appName=web&appVersion=1.479.0&origin=web&limit=100&ticker=
+    news-page-url: https://www.tbank.ru/invest/social/profile/
+    idea-page-url: https://www.tbank.ru/invest/ideas/
 
 logging:
   level:

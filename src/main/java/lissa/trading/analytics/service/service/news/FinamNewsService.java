@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Slf4j
-@Service
+@Service("finamService")
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
 
@@ -30,15 +30,20 @@ public class FinamNewsService implements NewsService {
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
         log.info("Company names: {}", keywords);
 
-        if (keywords.getNames().isEmpty()){
+        if (keywords.getNames().isEmpty()) {
             log.info("There is no keywords in entry, method is closing");
             return new NewsResponseDto(List.of());
         }
 
         NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
         log.info("Requesting to Tinkoff-service for company names by tickers");
-        NewsResponseDto filteredNews =  NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
+        NewsResponseDto filteredNews = NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
         return NewsDataProcessor.removeHtmlTagsFromText(filteredNews);
+    }
+
+    @Override
+    public String getSourceName() {
+        return "Finam news:";
     }
 
     private void setTinkoffApiToken() {

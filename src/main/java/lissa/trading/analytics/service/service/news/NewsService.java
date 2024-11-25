@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface NewsService {
     NewsResponseDto getNews(List<String> tickers);
+    String getSourceName();
 }

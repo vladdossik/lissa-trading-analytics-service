@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class FinamClient {
+
     private final WebClient finamWebClient;
 
     public String getFinamRssFeed() {
