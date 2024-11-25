@@ -14,12 +14,11 @@ import java.util.List;
 @Slf4j
 public class MainNewsService {
 
-    private final NewsService finamNewsService;
+    private final List<NewsService> newsServices;
 
     public List<NewsSourceResponseDto> getNews(List<String> tickers) {
-        List<NewsService> services = List.of(finamNewsService);
         List<NewsSourceResponseDto> newsSourceResponseDtos = new ArrayList<>();
-        for (NewsService service : services) {
+        for (NewsService service : newsServices) {
             NewsResponseDto response = service.getNews(tickers);
             if (response != null) {
                 newsSourceResponseDtos.add(new NewsSourceResponseDto(service.getSourceName(), response));
