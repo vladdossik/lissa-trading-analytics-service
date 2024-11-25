@@ -1,6 +1,7 @@
 package lissa.trading.analytics.service.service.tinkoffPulse;
 
 import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
+import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.NewsTickerDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsResponseDto;
@@ -26,7 +27,7 @@ public class TinkoffPulseNewsService implements TinkoffPulseService {
     private final TinkoffPulseClient tinkoffPulseClient;
 
     @Override
-    public List<StockNewsResponseDto> getData(List<String> tickers) {
+    public List<ResponseDto> getData(List<String> tickers) {
         log.info("Getting news data from Tinkoff Pulse");
 
         List<StockNewsDto> newsDtoList = tinkoffPulseClient
@@ -35,20 +36,15 @@ public class TinkoffPulseNewsService implements TinkoffPulseService {
                 .getItems();
         Map<String, List<StockNewsDto>> newsMap = processNewsByTickers(newsDtoList);
 
-        List<StockNewsResponseDto> responseDtoList = new ArrayList<>();
+        List<ResponseDto> responseDtoList = new ArrayList<>();
 
         for (String ticker : tickers) {
-            if (!newsMap.containsKey(ticker)) {
-                responseDtoList.add(StockNewsResponseDto.builder()
-                        .message("Не найдено новостей по тикеру: " + ticker)
-                        .items(Collections.emptyList())
-                        .build());
+            String tickerUpperCase = ticker.toUpperCase();
+            if (!newsMap.containsKey(tickerUpperCase)) {
+                responseDtoList.add(new StockNewsResponseDto(Collections.emptyList()));
             } else {
-                List<StockNewsDto> news = newsMap.get(ticker);
-                responseDtoList.add(StockNewsResponseDto.builder()
-                        .message("Найдено " + news.size() + " новостей по тикеру: " + ticker)
-                        .items(news)
-                        .build());
+                List<StockNewsDto> news = newsMap.get(tickerUpperCase);
+                responseDtoList.add(new StockNewsResponseDto(news));
             }
         }
         return responseDtoList;

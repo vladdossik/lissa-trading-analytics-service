@@ -1,29 +1,33 @@
 package lissa.trading.analytics.service.service.news;
 
 import lissa.trading.analytics.service.dto.NewsResponseDto;
-import lissa.trading.analytics.service.exception.UnsupportedSourceException;
+import lissa.trading.analytics.service.dto.NewsSourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MainNewsService implements NewsService {
+public class MainNewsService {
 
-    private final FinamNewsService finamNewsService;
+    private final NewsService finamNewsService;
 
-    @Override
-    public NewsResponseDto getNews(String source, List<String> tickers) {
-        switch (source.toLowerCase()) {
-            case "finam":
-                return finamNewsService.getNews(tickers);
-            // реализации будут дополняться
-            default:
-                log.error("Unsupported source: {}", source);
-                throw new UnsupportedSourceException("Unsupported source: " + source);
+    public List<NewsSourceResponseDto> getNews(List<String> tickers) {
+        List<NewsService> services = List.of(finamNewsService);
+        List<NewsSourceResponseDto> newsSourceResponseDtos = new ArrayList<>();
+        for (NewsService service : services) {
+            NewsResponseDto response = service.getNews(tickers);
+            if (response != null) {
+                newsSourceResponseDtos.add(new NewsSourceResponseDto(service.getSourceName(), response));
+            } else {
+                log.error("Error getting news for {}", tickers);
+                throw new RuntimeException();
+            }
         }
+        return newsSourceResponseDtos;
     }
 }

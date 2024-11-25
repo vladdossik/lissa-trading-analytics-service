@@ -1,8 +1,7 @@
 package lissa.trading.analytics.service.service.tinkoffPulse;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
+import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +21,15 @@ public class TinkoffPulseBrandInfoService implements TinkoffPulseService {
     private final TinkoffPulseClient tinkoffPulseClient;
 
     @Override
-    public List<BrandInfoResponseDto> getData(List<String> tickers) {
+    public List<ResponseDto> getData(List<String> tickers) {
         log.info("Getting brands info data from Tinkoff Pulse");
-        List<BrandInfoResponseDto> responseDtos = new ArrayList<>();
+        List<ResponseDto> responseDtos = new ArrayList<>();
         for (String ticker : tickers) {
-            BrandInfoDto brandInfoDto = processBrandsByTicker().get(ticker);
+            BrandInfoDto brandInfoDto = processBrandsByTicker().get(ticker.toUpperCase());
             if (brandInfoDto != null) {
-                responseDtos.add(BrandInfoResponseDto.builder()
-                        .message("Информация о компании по тикеру: " + ticker)
-                        .brandInfo(brandInfoDto)
-                        .build());
+                responseDtos.add(new BrandInfoResponseDto(brandInfoDto));
             } else {
-                responseDtos.add(BrandInfoResponseDto.builder()
-                        .message("Не удалось найти информацию о компании по тикеру: " + ticker)
-                        .brandInfo(new BrandInfoDto())
-                        .build());
+                responseDtos.add(new BrandInfoResponseDto());
             }
         }
         return responseDtos;

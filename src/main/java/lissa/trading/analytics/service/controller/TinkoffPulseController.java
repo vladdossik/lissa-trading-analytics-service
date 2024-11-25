@@ -42,7 +42,7 @@ public class TinkoffPulseController {
                     schema = @Schema(implementation = StockNewsResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("news")
-    List<? extends ResponseDto> getTinkoffPulseNews(@RequestParam @NotEmpty List<String> tickers) {
+    List<ResponseDto> getTinkoffPulseNews(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting news from Tinkoff Pulse with params: {}", tickers);
         return tinkoffPulseNewsService.getData(tickers);
     }
@@ -54,7 +54,7 @@ public class TinkoffPulseController {
                     schema = @Schema(implementation = StockIdeasResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("ideas")
-    List<? extends ResponseDto> getTinkoffPulseIdeas(@RequestParam @NotEmpty List<String> tickers) {
+    List<ResponseDto> getTinkoffPulseIdeas(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting ideas from Tinkoff Pulse with params: {}", tickers);
         return tinkoffPulseIdeasService.getData(tickers);
     }
@@ -66,7 +66,7 @@ public class TinkoffPulseController {
                     schema = @Schema(implementation = BrandInfoResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping("brand-info")
-    List<? extends ResponseDto> getTinkoffPulseBrandInfo(@RequestParam @NotEmpty List<String> tickers) {
+    List<ResponseDto> getTinkoffPulseBrandInfo(@RequestParam @NotEmpty List<String> tickers) {
         log.info("Requesting brand info from Tinkoff Pulse with params: {}", tickers);
         return tinkoffPulseBrandInfoService.getData(tickers);
     }

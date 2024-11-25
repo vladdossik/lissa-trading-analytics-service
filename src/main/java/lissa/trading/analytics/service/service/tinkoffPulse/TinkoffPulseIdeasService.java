@@ -1,6 +1,7 @@
 package lissa.trading.analytics.service.service.tinkoffPulse;
 
 import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
+import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeasResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,13 @@ public class TinkoffPulseIdeasService implements TinkoffPulseService {
     private final TinkoffPulseClient tinkoffPulseClient;
 
     @Override
-    public List<StockIdeasResponseDto> getData(List<String> tickers) {
+    public List<ResponseDto> getData(List<String> tickers) {
         log.info("Getting ideas data from Tinkoff Pulse");
-        List<StockIdeasResponseDto> responseDtoList = new ArrayList<>();
+        List<ResponseDto> responseDtoList = new ArrayList<>();
 
         for (String ticker : tickers) {
             List<StockIdeaDto> ideasDtoList = tinkoffPulseClient
-                    .getStockIdeas(ticker)
+                    .getStockIdeas(ticker.toUpperCase())
                     .getPayload()
                     .getIdeas();
 
@@ -36,11 +37,7 @@ public class TinkoffPulseIdeasService implements TinkoffPulseService {
                 ideasDto.setUrl(pulseIdeaPageUrl + ideasDto.getId());
             }
 
-            responseDtoList.add(StockIdeasResponseDto.builder()
-                    .ideas(ideasDtoList)
-                    .message("Найдено " + ideasDtoList.size()
-                            + " идей для инвестиций по тикеру: " + ticker)
-                    .build());
+            responseDtoList.add(new StockIdeasResponseDto(ideasDtoList));
         }
         return responseDtoList;
     }

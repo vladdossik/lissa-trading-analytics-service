@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Service("finamService")
 @RequiredArgsConstructor
-public class FinamNewsService {
+public class FinamNewsService implements NewsService {
 
     @Value("${security.tinkoff.token}")
     private String tinkoffApiToken;
@@ -24,6 +24,7 @@ public class FinamNewsService {
     private final NewsXmlParser newsXmlParser;
     private final StockServiceClient stockServiceClient;
 
+    @Override
     public NewsResponseDto getNews(List<String> tickers) {
         setTinkoffApiToken();
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
@@ -38,6 +39,11 @@ public class FinamNewsService {
         log.info("Requesting to Tinkoff-service for company names by tickers");
         NewsResponseDto filteredNews = NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
         return NewsDataProcessor.removeHtmlTagsFromText(filteredNews);
+    }
+
+    @Override
+    public String getSourceName() {
+        return "Finam news:";
     }
 
     private void setTinkoffApiToken() {

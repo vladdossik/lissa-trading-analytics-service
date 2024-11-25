@@ -2,15 +2,14 @@ package lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo;
 
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class BrandInfoResponseDto implements ResponseDto {
-    private String message;
+public class BrandInfoResponseDto extends ResponseDto {
     private BrandInfoDto brandInfo;
 }
