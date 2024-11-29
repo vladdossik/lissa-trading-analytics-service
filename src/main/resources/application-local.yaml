@@ -18,6 +18,11 @@ integration:
     stock-ideas-url: https://www.tbank.ru/api/invest/smartfeed-public/v1/feed/api/ideas?sessionId=1DODhdaBBHo63oINhpMXVlbKL60fMp7h.m1-prod-api-138&appName=web&appVersion=1.479.0&origin=web&limit=100&ticker=
     news-page-url: https://www.tbank.ru/invest/social/profile/
     idea-page-url: https://www.tbank.ru/invest/ideas/
+  rabbit:
+    tg-bot-service:
+      request-queue: requestQueue
+      pulse-response-queue: responseQueue
+      news-response-queue: newsResponseQueue
 
 logging:
   level:
