@@ -1,17 +1,19 @@
-package lissa.trading.analytics.service.integration.tgBotService.consumer;
+package lissa.trading.analytics.service.integration.tgBotService;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lissa.trading.analytics.service.dto.NewsSourceResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.tgBot.InfoType;
 import lissa.trading.analytics.service.dto.tgBot.TgBotNewsResponseDto;
 import lissa.trading.analytics.service.dto.tgBot.TgBotPulseResponseDto;
 import lissa.trading.analytics.service.dto.tgBot.TgBotRequestDto;
-import lissa.trading.analytics.service.integration.tgBotService.publisher.TgBotProducer;
 import lissa.trading.analytics.service.service.news.MainNewsService;
 import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TgBotConsumer {
+public class ProcessingRequestService {
 
     @Qualifier("newsService")
     private final TinkoffPulseService pulseNewsService;
@@ -33,23 +35,14 @@ public class TgBotConsumer {
     private final TinkoffPulseService pulseBrandInfoService;
 
     private final MainNewsService newsService;
+    private final TgBotSender tgBotSender;
 
-    private final TgBotProducer tgBotProducer;
+    public void processRequest(TgBotRequestDto request) {
+        InfoType type = request.getType();
 
-    @RabbitListener(queues = "${integration.rabbit.tg-bot-service.request-queue}")
-    public void handleRequest(TgBotRequestDto request) {
-        log.info("Receives message {}", request);
-        if (request != null) {
-            InfoType type = request.getType();
-
-            switch (type) {
-                case NEWS -> handleNewsRequest(request);
-                case PULSE_NEWS, IDEAS, BRAND_INFO -> handlePulseRequest(request);
-            }
-
-        } else {
-            log.error("Error getting news request from TgBot");
-            throw new RuntimeException("Error getting request from TgBot");
+        switch (type) {
+            case NEWS -> handleNewsRequest(request);
+            case PULSE_NEWS, IDEAS, BRAND_INFO -> handlePulseRequest(request);
         }
     }
 
@@ -58,22 +51,27 @@ public class TgBotConsumer {
 
         List<NewsSourceResponseDto> news = newsService.getNews(tickers);
         TgBotNewsResponseDto newsResponseDto = new TgBotNewsResponseDto(InfoType.NEWS, requestDto.getChatId(), news);
-        tgBotProducer.sendNewsData(newsResponseDto);
+        tgBotSender.sendNewsData(newsResponseDto);
     }
 
     private void handlePulseRequest(TgBotRequestDto requestDto) {
         List<String> tickers = requestDto.getTickers();
         List<ResponseDto> data = new ArrayList<>();
-
-        switch (requestDto.getType()) {
-            case PULSE_NEWS -> data = pulseNewsService.getData(tickers);
-            case IDEAS -> data = pulseIdeasService.getData(tickers);
-            case BRAND_INFO -> data = pulseBrandInfoService.getData(tickers);
+        InfoType type = requestDto.getType();
+        switch (type) {
+            case PULSE_NEWS -> {
+                data = pulseNewsService.getData(tickers);
+            }
+            case IDEAS -> {
+                data = pulseIdeasService.getData(tickers);
+            }
+            case BRAND_INFO -> {
+                data = pulseBrandInfoService.getData(tickers);
+            }
         }
 
         TgBotPulseResponseDto pulseResponseDto = new TgBotPulseResponseDto(requestDto.getType(),
                 requestDto.getChatId(), data);
-        tgBotProducer.sendPulseData(pulseResponseDto);
+        tgBotSender.sendPulseData(pulseResponseDto);
     }
-
 }

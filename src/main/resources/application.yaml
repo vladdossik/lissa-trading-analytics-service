@@ -1,3 +1,25 @@
 spring:
   profiles:
     active: local
+
+integration:
+  rabbit:
+    exchange: analytics-exchange
+    inbound:
+      tg-bot:
+        queue: analytics-request-queue
+    outbound:
+      tg-bot:
+        routing-key:
+          request:
+            key: request
+          response:
+            pulse:
+              key: response.pulse
+            news:
+              key: response.news
+        tg-bot:
+          pulse:
+            queue: analytics-response-pulse-queue
+          news:
+            queue: analytics-response-news-queue
