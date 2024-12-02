@@ -1,6 +1,6 @@
 package lissa.trading.analytics.service.service.tinkoffPulse;
 
-import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
+import lissa.trading.analytics.service.client.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.NewsTickerDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsDto;
@@ -34,6 +34,7 @@ public class TinkoffPulseNewsService implements TinkoffPulseService {
                 .getStockNews()
                 .getPayload()
                 .getItems();
+
         Map<String, List<StockNewsDto>> newsMap = processNewsByTickers(newsDtoList);
 
         List<ResponseDto> responseDtoList = new ArrayList<>();

@@ -74,7 +74,7 @@ public class IndicatorCalculator {
         return ema;
     }
 
-    public Double calculateSma(List<CandleDto> candles, int period) {
+    private Double calculateSma(List<CandleDto> candles, int period) {
         log.info("Calculating SMA indicator");
 
         double sum = candles.stream()

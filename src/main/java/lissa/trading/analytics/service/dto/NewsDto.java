@@ -7,6 +7,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lissa.trading.analytics.service.adapter.LocalDateTimeAdapter;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "item")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewsDto {
@@ -32,7 +34,6 @@ public class NewsDto {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     @XmlElement(name = "pubDate")

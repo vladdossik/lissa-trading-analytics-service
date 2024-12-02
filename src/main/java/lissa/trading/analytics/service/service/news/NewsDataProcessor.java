@@ -3,7 +3,9 @@ package lissa.trading.analytics.service.service.news;
 import lissa.trading.analytics.service.dto.NewsDto;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -19,7 +21,11 @@ public class NewsDataProcessor {
                 })
                 .toList();
         news.setItems(filteredItems);
+
         log.info("Matched news count: {}", filteredItems.size());
+        if (CollectionUtils.isEmpty(filteredItems)) {
+            return new NewsResponseDto(Collections.emptyList());
+        }
         return news;
     }
 
