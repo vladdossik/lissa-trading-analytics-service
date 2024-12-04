@@ -59,8 +59,8 @@ class IndicatorServiceImplTest extends AbstractInitialization {
 
     @Test
     void getIndicators_NotEnoughDataException() {
-        when(stockServiceClientMock.getCandles(any())).thenReturn(new CandlesDto(candlesDto.getCandles().subList(0,
-                13)));
+        when(stockServiceClientMock.getCandles(any()))
+                .thenReturn(new CandlesDto(candlesDto.getCandles().subList(0, 13)));
         when(indicatorCalculatorMock.calculateIndicators(candlesDto.getCandles().subList(0, 13),
                 CANDLE_INTERVAL_DAY)).thenThrow(NotEnoughDataException.class);
 
