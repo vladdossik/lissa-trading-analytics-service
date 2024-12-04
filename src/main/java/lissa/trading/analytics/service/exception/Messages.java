@@ -21,7 +21,6 @@ public class Messages {
                 .currentRequestAttributes())
                 .getRequest();
         Locale locale = localeResolver.resolveLocale(request);
-        System.out.println("LOCALE: " + locale);
         return messageSource.getMessage(key, args, locale);
     }
 }
