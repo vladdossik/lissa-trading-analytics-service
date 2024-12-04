@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class FinamNewsService implements NewsService {
     @Override
     public NewsResponseDto getNews(List<String> tickers) {
         setTinkoffApiToken();
+        log.info("Requesting to Tinkoff-service for company names by tickers");
         CompanyNamesDto keywords = stockServiceClient.getCompanyNamesByTickers(tickers);
         log.info("Company names: {}", keywords);
 
@@ -36,8 +38,13 @@ public class FinamNewsService implements NewsService {
         }
 
         NewsResponseDto unfilteredNews = newsXmlParser.toNewsDto(finamClient.getFinamRssFeed());
-        log.info("Requesting to Tinkoff-service for company names by tickers");
         NewsResponseDto filteredNews = NewsDataProcessor.filterNewsByKeywords(unfilteredNews, keywords.getNames());
+
+        if (CollectionUtils.isEmpty(filteredNews.getItems())){
+            log.info("There are no news in Tinkoff-service for company names");
+            return filteredNews;
+        }
+
         return NewsDataProcessor.removeHtmlTagsFromText(filteredNews);
     }
 

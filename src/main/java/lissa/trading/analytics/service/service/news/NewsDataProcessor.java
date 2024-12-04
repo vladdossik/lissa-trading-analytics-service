@@ -3,7 +3,9 @@ package lissa.trading.analytics.service.service.news;
 import lissa.trading.analytics.service.dto.NewsDto;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -18,9 +20,13 @@ public class NewsDataProcessor {
                             .anyMatch(keyword -> description.contains(keyword.toLowerCase()));
                 })
                 .toList();
-        news.setItems(filteredItems);
+        NewsResponseDto filteredNews = new NewsResponseDto(filteredItems);
+
         log.info("Matched news count: {}", filteredItems.size());
-        return news;
+        if (CollectionUtils.isEmpty(filteredItems)) {
+            return new NewsResponseDto(Collections.emptyList());
+        }
+        return filteredNews;
     }
 
     public static NewsResponseDto removeHtmlTagsFromText(NewsResponseDto news) {

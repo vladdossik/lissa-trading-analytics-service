@@ -10,12 +10,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.StringReader;
+import java.util.Collections;
 
 @Slf4j
 @Component
 public class NewsXmlParser {
     public NewsResponseDto toNewsDto(String xml) {
-        log.info("Trying to parse XML document");
+        if (xml == null) {
+            log.error("xml is null: {}", xml);
+            throw new XmlParsingException("xml is null");
+        } else if (xml.isEmpty()) {
+            log.info("xml is empty: {}", xml);
+            return new NewsResponseDto(Collections.emptyList());
+        }
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(RssFeedDto.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
