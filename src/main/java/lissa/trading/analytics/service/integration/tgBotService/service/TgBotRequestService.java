@@ -1,19 +1,18 @@
-package lissa.trading.analytics.service.integration.tgBotService;
+package lissa.trading.analytics.service.integration.tgBotService.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lissa.trading.analytics.service.dto.NewsSourceResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.tgBot.InfoType;
 import lissa.trading.analytics.service.dto.tgBot.TgBotNewsResponseDto;
 import lissa.trading.analytics.service.dto.tgBot.TgBotPulseResponseDto;
 import lissa.trading.analytics.service.dto.tgBot.TgBotRequestDto;
+import lissa.trading.analytics.service.integration.RequestService;
+import lissa.trading.analytics.service.integration.ResponseService;
+import lissa.trading.analytics.service.mapper.StockIdeaMapper;
 import lissa.trading.analytics.service.service.news.MainNewsService;
 import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProcessingRequestService {
+public class TgBotRequestService implements RequestService {
 
     @Qualifier("newsService")
     private final TinkoffPulseService pulseNewsService;
@@ -35,8 +34,9 @@ public class ProcessingRequestService {
     private final TinkoffPulseService pulseBrandInfoService;
 
     private final MainNewsService newsService;
-    private final TgBotSender tgBotSender;
+    private final ResponseService responseService;
 
+    @Override
     public void processRequest(TgBotRequestDto request) {
         InfoType type = request.getType();
 
@@ -51,7 +51,7 @@ public class ProcessingRequestService {
 
         List<NewsSourceResponseDto> news = newsService.getNews(tickers);
         TgBotNewsResponseDto newsResponseDto = new TgBotNewsResponseDto(InfoType.NEWS, requestDto.getChatId(), news);
-        tgBotSender.sendNewsData(newsResponseDto);
+        responseService.sendNewsResponse(newsResponseDto);
     }
 
     private void handlePulseRequest(TgBotRequestDto requestDto) {
@@ -72,6 +72,6 @@ public class ProcessingRequestService {
 
         TgBotPulseResponseDto pulseResponseDto = new TgBotPulseResponseDto(requestDto.getType(),
                 requestDto.getChatId(), data);
-        tgBotSender.sendPulseData(pulseResponseDto);
+        responseService.sendPulseResponse(pulseResponseDto);
     }
 }

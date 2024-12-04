@@ -9,7 +9,6 @@ import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFacto
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,62 +16,62 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${integration.rabbit.inbound.tg-bot.queue}")
+    @Value("${integration.rabbit.queues.inbound.tg-bot.request}")
     private String requestQueue;
 
-    @Value("${integration.rabbit.outbound.tg-bot.tg-bot.pulse.queue}")
+    @Value("${integration.rabbit.queues.outbound.tg-bot.pulse}")
     private String pulseResponseQueue;
 
-    @Value("${integration.rabbit.outbound.tg-bot.tg-bot.news.queue}")
+    @Value("${integration.rabbit.queues.outbound.tg-bot.news}")
     private String newsResponseQueue;
 
-    @Value("${integration.rabbit.exchange}")
+    @Value("${integration.rabbit.exchanges.analytics}")
     private String analyticsExchange;
 
-    @Value("${integration.rabbit.outbound.tg-bot.routing-key.request.key}")
+    @Value("${integration.rabbit.routing-keys.tg-bot.request}")
     private String requestRoutingKey;
 
-    @Value("${integration.rabbit.outbound.tg-bot.routing-key.response.pulse.key}")
+    @Value("${integration.rabbit.routing-keys.tg-bot.response.pulse}")
     private String responsePulseRoutingKey;
 
-    @Value("${integration.rabbit.outbound.tg-bot.routing-key.response.news.key}")
+    @Value("${integration.rabbit.routing-keys.tg-bot.response.news}")
     private String responseNewsRoutingKey;
 
     @Bean
-    public TopicExchange topicExchange() {
+    public TopicExchange AnalyticsTopicExchange() {
         return new TopicExchange(analyticsExchange);
     }
 
-    @Bean("requestQueue")
+    @Bean
     public Queue requestQueue() {
         return new Queue(requestQueue, true);
     }
 
-    @Bean("pulseResponseQueue")
+    @Bean
     public Queue pulseResponseQueue() {
         return new Queue(pulseResponseQueue, true);
     }
 
-    @Bean("newsResponseQueue")
+    @Bean
     public Queue newsResponseQueue() {
         return new Queue(newsResponseQueue, true);
     }
 
     @Bean
-    public Binding requestBinding(@Qualifier("requestQueue") Queue requestQueue, TopicExchange topicExchange) {
+    public Binding requestBinding(Queue requestQueue, TopicExchange topicExchange) {
         return BindingBuilder.bind(requestQueue).to(topicExchange).with(requestRoutingKey);
     }
 
     @Bean
-    public Binding pulseResponseBinding(@Qualifier("pulseResponseQueue") Queue responseQueue,
+    public Binding pulseResponseBinding(Queue pulseResponseQueue,
                                         TopicExchange topicExchange) {
-        return BindingBuilder.bind(responseQueue).to(topicExchange).with(responsePulseRoutingKey);
+        return BindingBuilder.bind(pulseResponseQueue).to(topicExchange).with(responsePulseRoutingKey);
     }
 
     @Bean
-    public Binding newResponseBinding(@Qualifier("newsResponseQueue") Queue responseQueue,
+    public Binding newResponseBinding(Queue newsResponseQueue,
                                       TopicExchange topicExchange) {
-        return BindingBuilder.bind(responseQueue).to(topicExchange).with(responseNewsRoutingKey);
+        return BindingBuilder.bind(newsResponseQueue).to(topicExchange).with(responseNewsRoutingKey);
     }
 
     @Bean
