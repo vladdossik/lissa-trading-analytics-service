@@ -6,7 +6,7 @@ security:
     token: Iq6Vu8Nz7Xa3Rl9Cm5YbTc2WpDf4Oj5ZfGn1Kh3
   tinkoff:
     # Paste your tinkoff-invest token for test this service
-    token: t.GJRhVfJj5-LVFFlZuXRLGkPIiMxuD04259YqD0nsRi0L5Zo69o9ygDbH73NrwYO-zML-J7K73hR_Jf7Ue3RuHw
+    token:
 
 integration:
   rest:

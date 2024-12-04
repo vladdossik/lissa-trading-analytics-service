@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: local
+  messages:
+    basename: messages
+    encoding: UTF-8
 
 integration:
   rabbit:

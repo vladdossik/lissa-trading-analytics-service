@@ -1,6 +1,6 @@
 package lissa.trading.analytics.service.service.tinkoffPulse;
 
-import lissa.trading.analytics.service.client.tinkoff.pulse.TinkoffPulseClient;
+import lissa.trading.analytics.service.client.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeaFromPulseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeaDto;
