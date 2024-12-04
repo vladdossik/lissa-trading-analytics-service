@@ -18,7 +18,6 @@ import org.springframework.web.servlet.View;
 @Component
 public class TinkoffPulseClient {
 
-    private final View error;
     @Value("${integration.pulse.stock-news-url}")
     private String pulseStocksNewsUrl;
     @Value("${integration.pulse.brands-info-url}")
@@ -26,6 +25,7 @@ public class TinkoffPulseClient {
     @Value("${integration.pulse.stock-ideas-url}")
     private String pulseStockIdeasUrl;
 
+    private final View error;
     private final WebClient tinkoffPulseWebClient;
 
     public FullIdeaDto getStockIdeas(String url) {

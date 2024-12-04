@@ -2,8 +2,10 @@ package lissa.trading.analytics.service.service.news;
 
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lissa.trading.analytics.service.exception.XmlParsingException;
-import org.junit.jupiter.api.BeforeEach;
+import lissa.trading.analytics.service.service.AbstractInitialization;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 
@@ -11,22 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class NewsXmlParserTest extends BaseNewsTest {
+@SpringBootTest
+class NewsXmlParserTest extends AbstractInitialization {
+    @Autowired
     private NewsXmlParser newsXmlParser;
-
-    @Override
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-        newsXmlParser = new NewsXmlParser();
-    }
 
     @Test
     void toNewsDto_Correct() {
         NewsResponseDto news = newsXmlParser.toNewsDto(finamRssFeed);
         assertNotNull(news);
-        System.out.println("expected: " + newsResponseDto);
-        System.out.println("my method: " + news);
         assertEquals(news, newsResponseDto);
     }
 

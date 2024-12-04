@@ -1,6 +1,7 @@
 package lissa.trading.analytics.service.service.news;
 
 import lissa.trading.analytics.service.dto.NewsResponseDto;
+import lissa.trading.analytics.service.service.AbstractInitialization;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -9,7 +10,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class NewsDataProcessorTest extends BaseNewsTest {
+class NewsDataProcessorTest extends AbstractInitialization {
+
     @Test
     void filterNewsByKeyword_Correct() {
         NewsResponseDto news = NewsDataProcessor.filterNewsByKeywords(newsResponseDto, List.of("Газпром"));
@@ -22,6 +24,7 @@ class NewsDataProcessorTest extends BaseNewsTest {
         NewsResponseDto news = NewsDataProcessor.filterNewsByKeywords(newsResponseDto, List.of("Лисса-Трейдинг"));
         assertNotNull(news);
         assertEquals(news, new NewsResponseDto(Collections.emptyList()));
+        System.out.println(newsResponseDto);
     }
 
 }

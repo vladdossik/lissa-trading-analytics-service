@@ -1,5 +1,6 @@
 package lissa.trading.analytics.service.service.pulse;
 
+import lissa.trading.analytics.service.client.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.BrokerIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.FullIdeaDto;
@@ -7,24 +8,34 @@ import lissa.trading.analytics.service.dto.TinkoffPulse.idea.PayloadIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeasResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.TickerIdeaDto;
+import lissa.trading.analytics.service.service.AbstractInitialization;
+import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseIdeasService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class TinkoffPulseIdeasServiceTest extends PulseBaseTest {
+@ExtendWith(MockitoExtension.class)
+class TinkoffPulseIdeasServiceTest extends AbstractInitialization {
     private static final String PULSE_IDEA_URL= "https://lissa-trading.ru/ideas/";
 
+    @InjectMocks
+    private TinkoffPulseIdeasService tinkoffPulseIdeasService;
+
+    @Mock
+    private TinkoffPulseClient tinkoffPulseClientMock;
+
     @BeforeEach
-    @Override
     void setUp() {
-        super.setUp();
         ReflectionTestUtils.setField(tinkoffPulseIdeasService, "pulseIdeaPageUrl", PULSE_IDEA_URL);
     }
 

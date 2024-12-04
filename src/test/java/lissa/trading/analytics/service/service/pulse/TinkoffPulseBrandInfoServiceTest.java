@@ -1,8 +1,15 @@
 package lissa.trading.analytics.service.service.pulse;
 
+import lissa.trading.analytics.service.client.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.brandInfo.BrandInfoResponseDto;
+import lissa.trading.analytics.service.service.AbstractInitialization;
+import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseBrandInfoService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
@@ -11,7 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-class TinkoffPulseBrandInfoServiceTest extends PulseBaseTest {
+@ExtendWith(MockitoExtension.class)
+class TinkoffPulseBrandInfoServiceTest extends AbstractInitialization {
+    @InjectMocks
+    private TinkoffPulseBrandInfoService tinkoffPulseBrandInfoService;
+
+    @Mock
+    private TinkoffPulseClient tinkoffPulseClientMock;
+
     @Test
     void getData_Correct() {
         when(tinkoffPulseClientMock.getBrandsInfo()).thenReturn(fullBrandInfoDto);

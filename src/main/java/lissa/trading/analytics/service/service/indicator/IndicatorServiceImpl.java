@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Slf4j
 @Service
@@ -27,7 +28,7 @@ public class IndicatorServiceImpl implements IndicatorService {
         setTinkoffApiToken();
         log.info("Requesting tinkoff-api-service for candles data to tinkoff-service");
         CandlesDto candles = stockServiceClient.getCandles(candlesRequestDto);
-        if (candles == null || candles.getCandles().isEmpty()) {
+        if (candles == null || CollectionUtils.isEmpty(candles.getCandles())) {
             log.info("No candles found for requested data");
             throw new CandlesNotFoundException("No candles found for requested data");
         }

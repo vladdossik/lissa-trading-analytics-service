@@ -1,11 +1,15 @@
 package lissa.trading.analytics.service.service.indicator;
 
 import lissa.trading.analytics.service.client.tinkoff.dto.CandlesDto;
+import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.exception.CandlesNotFoundException;
 import lissa.trading.analytics.service.exception.NotEnoughDataException;
+import lissa.trading.analytics.service.service.AbstractInitialization;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.util.Collections;
 
@@ -21,7 +25,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-class IndicatorServiceImplTest extends BaseIndicatorTest {
+class IndicatorServiceImplTest extends AbstractInitialization {
+
+    @InjectMocks
+    IndicatorServiceImpl indicatorService;
+
+    @Mock
+    StockServiceClient stockServiceClientMock;
+
+    @Mock
+    IndicatorCalculator indicatorCalculatorMock;
 
     @BeforeEach
     void setToken(){

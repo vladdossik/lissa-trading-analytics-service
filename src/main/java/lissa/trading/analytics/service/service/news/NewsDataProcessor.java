@@ -20,13 +20,13 @@ public class NewsDataProcessor {
                             .anyMatch(keyword -> description.contains(keyword.toLowerCase()));
                 })
                 .toList();
-        news.setItems(filteredItems);
+        NewsResponseDto filteredNews = new NewsResponseDto(filteredItems);
 
         log.info("Matched news count: {}", filteredItems.size());
         if (CollectionUtils.isEmpty(filteredItems)) {
             return new NewsResponseDto(Collections.emptyList());
         }
-        return news;
+        return filteredNews;
     }
 
     public static NewsResponseDto removeHtmlTagsFromText(NewsResponseDto news) {

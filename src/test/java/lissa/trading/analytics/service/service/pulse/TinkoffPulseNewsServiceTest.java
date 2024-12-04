@@ -1,11 +1,18 @@
 package lissa.trading.analytics.service.service.pulse;
 
+import lissa.trading.analytics.service.client.pulse.TinkoffPulseClient;
 import lissa.trading.analytics.service.dto.TinkoffPulse.ResponseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.FullNewsDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.PayloadNewsDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsResponseDto;
+import lissa.trading.analytics.service.service.AbstractInitialization;
+import lissa.trading.analytics.service.service.tinkoffPulse.TinkoffPulseNewsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
@@ -16,13 +23,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-class TinkoffPulseNewsServiceTest extends PulseBaseTest {
+@ExtendWith(MockitoExtension.class)
+class TinkoffPulseNewsServiceTest extends AbstractInitialization {
 
     private static final String NEWS_PAGE_URL = "https://lissa-trading.ru/news/";
 
+    @InjectMocks
+    TinkoffPulseNewsService tinkoffPulseNewsService;
+
+    @Mock
+    TinkoffPulseClient tinkoffPulseClientMock;
+
     @BeforeEach
     void setUp() {
-        super.setUp();
         ReflectionTestUtils.setField(tinkoffPulseNewsService, "newsPageUrl", NEWS_PAGE_URL);
     }
 

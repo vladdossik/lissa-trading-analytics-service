@@ -1,9 +1,14 @@
 package lissa.trading.analytics.service.service.news;
 
+import lissa.trading.analytics.service.client.finam.FinamClient;
 import lissa.trading.analytics.service.client.tinkoff.dto.CompanyNamesDto;
+import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
+import lissa.trading.analytics.service.service.AbstractInitialization;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -16,7 +21,22 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-class FinamNewsServiceTest extends BaseNewsTest {
+class FinamNewsServiceTest extends AbstractInitialization {
+
+    @InjectMocks
+    protected FinamNewsService FinamNewsService;
+
+    @Mock
+    protected FinamClient finamClientMock;
+
+    @Mock
+    protected StockServiceClient stockServiceClientMock;
+
+    @Mock
+    protected NewsXmlParser newsXmlParserMock;
+
+    @Mock
+    protected NewsDataProcessor newsDataProcessorMock;
 
     @BeforeEach
     void setToken() {
@@ -73,4 +93,5 @@ class FinamNewsServiceTest extends BaseNewsTest {
             assertEquals(result, new NewsResponseDto(Collections.emptyList()));
         }
     }
+
 }

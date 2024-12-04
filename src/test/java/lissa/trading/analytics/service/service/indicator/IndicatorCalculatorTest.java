@@ -3,23 +3,20 @@ package lissa.trading.analytics.service.service.indicator;
 import lissa.trading.analytics.service.dto.CandleInterval;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.exception.NotEnoughDataException;
-import org.junit.jupiter.api.BeforeEach;
+import lissa.trading.analytics.service.service.AbstractInitialization;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class IndicatorCalculatorTest extends BaseIndicatorTest {
+@SpringBootTest
+class IndicatorCalculatorTest extends AbstractInitialization {
+    @Autowired
     private IndicatorCalculator calculator;
-
-    @Override
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-        calculator = new IndicatorCalculator();
-    }
 
     @Test
     void calculateIndicators_Correct() {
