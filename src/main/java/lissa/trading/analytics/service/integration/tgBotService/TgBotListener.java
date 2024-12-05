@@ -14,7 +14,7 @@ public class TgBotListener {
 
     private final TgBotRequestService requestService;
 
-    @RabbitListener(queues = "${integration.rabbit.queues.inbound.tg-bot.request}")
+    @RabbitListener(queues = "${integration.rabbit.inbound.tg-bot.queue}")
     public void handleRequest(TgBotRequestDto request) {
         log.info("Received message {}", request);
         if (request != null) {

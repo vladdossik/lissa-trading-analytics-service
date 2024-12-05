@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TgBotSender {
 
-    @Value("${integration.rabbit.exchanges.analytics}")
+    @Value("${integration.rabbit.inbound.tg-bot.exchange}")
     private String analyticsExchange;
 
-    @Value("${integration.rabbit.routing-keys.tg-bot.response.pulse}")
+    @Value("${integration.rabbit.outbound.tg-bot.pulse.routing-key}")
     private String pulseResponseRoutingKey;
 
-    @Value("${integration.rabbit.routing-keys.tg-bot.response.news}")
+    @Value("${integration.rabbit.outbound.tg-bot.news.routing-key}")
     private String newsResponseRoutingKey;
 
     private final RabbitTemplate rabbitTemplate;

@@ -16,25 +16,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${integration.rabbit.queues.inbound.tg-bot.request}")
+    @Value("${integration.rabbit.inbound.tg-bot.queue}")
     private String requestQueue;
 
-    @Value("${integration.rabbit.queues.outbound.tg-bot.pulse}")
+    @Value("${integration.rabbit.outbound.tg-bot.pulse.queue}")
     private String pulseResponseQueue;
 
-    @Value("${integration.rabbit.queues.outbound.tg-bot.news}")
+    @Value("${integration.rabbit.outbound.tg-bot.news.queue}")
     private String newsResponseQueue;
 
-    @Value("${integration.rabbit.exchanges.analytics}")
+    @Value("${integration.rabbit.inbound.tg-bot.exchange}")
     private String analyticsExchange;
 
-    @Value("${integration.rabbit.routing-keys.tg-bot.request}")
+    @Value("${integration.rabbit.inbound.tg-bot.routing-key}")
     private String requestRoutingKey;
 
-    @Value("${integration.rabbit.routing-keys.tg-bot.response.pulse}")
+    @Value("${integration.rabbit.outbound.tg-bot.pulse.routing-key}")
     private String responsePulseRoutingKey;
 
-    @Value("${integration.rabbit.routing-keys.tg-bot.response.news}")
+    @Value("${integration.rabbit.outbound.tg-bot.news.routing-key}")
     private String responseNewsRoutingKey;
 
     @Bean

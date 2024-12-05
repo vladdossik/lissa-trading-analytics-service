@@ -7,19 +7,16 @@ spring:
 
 integration:
   rabbit:
-    exchanges:
-      analytics: analytics-exchange
-    queues:
-      inbound:
-        tg-bot:
-          request: analytics-request-queue
-      outbound:
-        tg-bot:
-          pulse: analytics-response-pulse-queue
-          news: analytics-response-news-queue
-    routing-keys:
+    inbound:
       tg-bot:
-        request: request
-        response:
-          pulse: response.pulse
-          news: response.news
+        queue: analytics-request-queue
+        exchange: analytics-exchange
+        routing-key: request
+    outbound:
+      tg-bot:
+        pulse:
+          queue: analytics-response-pulse-queue
+          routing-key: response.pulse
+        news:
+          queue: analytics-response-news-queue
+          routing-key: response.news
