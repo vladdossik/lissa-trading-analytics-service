@@ -10,5 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PayloadIdeaDto {
-    private List<StockIdeaDto> ideas;
+    private List<StockIdeaFromPulseDto> ideas;
 }

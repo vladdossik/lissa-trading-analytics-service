@@ -50,7 +50,7 @@ public class FinamNewsService implements NewsService {
 
     @Override
     public String getSourceName() {
-        return "Finam news:";
+        return "Finam";
     }
 
     private void setTinkoffApiToken() {

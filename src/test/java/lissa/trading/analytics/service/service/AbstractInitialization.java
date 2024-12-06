@@ -16,6 +16,7 @@ import lissa.trading.analytics.service.dto.TinkoffPulse.idea.BrokerIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.FullIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.PayloadIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeaDto;
+import lissa.trading.analytics.service.dto.TinkoffPulse.idea.StockIdeaFromPulseDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.idea.TickerIdeaDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.FullNewsDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.NewsContentDto;
@@ -83,10 +84,10 @@ public abstract class AbstractInitialization {
         );
         fullBrandInfoDto = new FullBrandInfoDto(new PayloadBrandInfoDto(List.of(ydexBrand, sberBrand)));
 
-        StockIdeaDto sberIdea = new StockIdeaDto("1", "Idea 1", new BrokerIdeaDto("broker1", "Broker 1", 0.85),
+        StockIdeaFromPulseDto sberIdea = new StockIdeaFromPulseDto("1", "Idea 1", new BrokerIdeaDto("broker1", "Broker 1", 0.85),
                 List.of(new TickerIdeaDto("SBER", "Sberbank", 250.0)), 10.0, "url1", "2024-01-01", "2024-12-31", 100.0,
                 120.0, 0.2);
-        StockIdeaDto gazpIdea = new StockIdeaDto("2", "Idea 2", new BrokerIdeaDto("broker2", "Broker 2", 0.9),
+        StockIdeaFromPulseDto gazpIdea = new StockIdeaFromPulseDto("2", "Idea 2", new BrokerIdeaDto("broker2", "Broker 2", 0.9),
                 List.of(new TickerIdeaDto("GAZP", "Gazprom", 300.0)), 15.0, "url2", "2024-01-01", "2024-12-31", 150.0,
                 170.0, 0.15);
         fullIdeaDto = new FullIdeaDto(new PayloadIdeaDto(List.of(sberIdea, gazpIdea)));

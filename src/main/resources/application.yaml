@@ -4,3 +4,19 @@ spring:
   messages:
     basename: messages
     encoding: UTF-8
+
+integration:
+  rabbit:
+    inbound:
+      tg-bot:
+        queue: analytics-request-queue
+        exchange: analytics-exchange
+        routing-key: request
+    outbound:
+      tg-bot:
+        pulse:
+          queue: analytics-response-pulse-queue
+          routing-key: response.pulse
+        news:
+          queue: analytics-response-news-queue
+          routing-key: response.news
