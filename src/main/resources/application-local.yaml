@@ -3,8 +3,7 @@ server:
 
 security:
   internal:
-    outbound:
-      token: 0lExel-fbvidzVDJHS0YPAm9YgvE2pRkZaFsgd_W83M
+    token: YW5hbHl0aWNzLWludGVybmFsLWtleQ==
   tinkoff:
     # Paste your tinkoff-invest token for test this service
     token:
