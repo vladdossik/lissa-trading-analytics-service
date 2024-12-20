@@ -3,10 +3,10 @@ server:
 
 security:
   internal:
-    token: YW5hbHl0aWNzLWludGVybmFsLWtleQ==
+    token: WVc1aGJIbDBhV056TFdsdWRHVnlibUZzTFd0bGVRCg==
   tinkoff:
     # Paste your tinkoff-invest token for test this service
-    token:
+    token: t.8PjmIUWzIu6vNiQtHIio9Z2KbcfnQqrpr1jO3KdOWZLOtqfq7eQ0P5Z21sws9Z47gMIdB2buOahtbtim8IqZsw
 
 integration:
   rest:
