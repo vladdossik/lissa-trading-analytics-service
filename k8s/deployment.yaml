@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lissa-trading-analytics-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lissa-trading-analytics-service
+  template:
+    metadata:
+      labels:
+        app: lissa-trading-analytics-service
+    spec:
+      containers:
+        - name: analytics-service
+          image: kenpxrk1/lissa-trading-analytics-service:latest
+          ports:
+            - containerPort: 8084
+          envFrom:
+            - configMapRef:
+                name: lissa-trading-analytics-service-config
+            - secretRef:
+                name: lissa-trading-analytics-service-secret
