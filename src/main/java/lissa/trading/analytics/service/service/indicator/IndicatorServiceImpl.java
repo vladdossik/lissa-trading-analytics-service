@@ -6,9 +6,17 @@ import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.IndicatorsDto;
 import lissa.trading.analytics.service.exception.CandlesNotFoundException;
+import lissa.trading.analytics.service.security.AuthTokenFilter;
+import lissa.trading.analytics.service.security.SecurityContextHelper;
+import lissa.trading.analytics.service.security.WebSecurityConfig;
+import lissa.trading.lissa.auth.lib.dto.UserInfoDto;
+import lissa.trading.lissa.auth.lib.feign.AuthServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -16,9 +24,6 @@ import org.springframework.util.CollectionUtils;
 @Service
 @RequiredArgsConstructor
 public class IndicatorServiceImpl implements IndicatorService {
-
-    @Value("${security.tinkoff.token}")
-    private String tinkoffApiToken;
 
     private final StockServiceClient stockServiceClient;
     private final IndicatorCalculator indicatorCalculator;
@@ -36,7 +41,18 @@ public class IndicatorServiceImpl implements IndicatorService {
     }
 
     private void setTinkoffApiToken() {
-        log.info("Requesting tinkoff-api-service for set tinkoff-token");
-        stockServiceClient.setTinkoffToken(new TinkoffTokenDto(tinkoffApiToken));
+
+        TinkoffTokenDto tinkoffTokenDto = new TinkoffTokenDto();
+
+        if (SecurityContextHelper.getCurrentUser() != null
+                && SecurityContextHelper.getCurrentUser().getTinkoffToken() != null) {
+            tinkoffTokenDto.setToken(SecurityContextHelper.getCurrentUser().getTinkoffToken());
+        }
+        else {
+            log.error("Tinkoff token does not exists for current user: {}, token: {}",
+                    SecurityContextHelper.getCurrentUser(), SecurityContextHelper.getCurrentUser().getTinkoffToken());
+            throw new SecurityException("Tinkoff API token not found");
+        }
+        stockServiceClient.setTinkoffToken(tinkoffTokenDto);
     }
 }

@@ -7,6 +7,7 @@ spec:
     app: lissa-trading-analytics-service
   ports:
     - protocol: TCP
-      port: 8084
+      port: 80
       targetPort: 8084
-  type: ClusterIP
+      nodePort: 30080
+  type: NodePort

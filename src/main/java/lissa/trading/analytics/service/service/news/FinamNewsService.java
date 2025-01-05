@@ -5,6 +5,7 @@ import lissa.trading.analytics.service.client.tinkoff.dto.CompanyNamesDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
+import lissa.trading.analytics.service.security.SecurityContextHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,9 +18,6 @@ import java.util.List;
 @Service("finamService")
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
-
-    @Value("${security.tinkoff.token}")
-    private String tinkoffApiToken;
 
     private final FinamClient finamClient;
     private final NewsXmlParser newsXmlParser;
@@ -54,7 +52,16 @@ public class FinamNewsService implements NewsService {
     }
 
     private void setTinkoffApiToken() {
-        log.info("Requesting tinkoff-api-service for set tinkoff-token");
-        stockServiceClient.setTinkoffToken(new TinkoffTokenDto(tinkoffApiToken));
+        TinkoffTokenDto tinkoffTokenDto = new TinkoffTokenDto();
+
+        if (SecurityContextHelper.getCurrentUser() != null
+                && SecurityContextHelper.getCurrentUser().getTinkoffToken() != null) {
+            log.info("Tinkoff token is: {}", SecurityContextHelper.getCurrentUser().getTinkoffToken());
+            tinkoffTokenDto.setToken(SecurityContextHelper.getCurrentUser().getTinkoffToken());
+        }
+        else {
+            throw new SecurityException("Tinkoff API token not set");
+        }
+        stockServiceClient.setTinkoffToken(tinkoffTokenDto);
     }
 }
