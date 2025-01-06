@@ -56,7 +56,6 @@ public class FinamNewsService implements NewsService {
 
         if (SecurityContextHelper.getCurrentUser() != null
                 && SecurityContextHelper.getCurrentUser().getTinkoffToken() != null) {
-            log.info("Tinkoff token is: {}", SecurityContextHelper.getCurrentUser().getTinkoffToken());
             tinkoffTokenDto.setToken(SecurityContextHelper.getCurrentUser().getTinkoffToken());
         }
         else {
