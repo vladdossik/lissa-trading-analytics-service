@@ -11,8 +11,6 @@ spring:
 security:
   internal:
     token: ${SECURITY_INTERNAL_TOKEN}
-  tinkoff:
-    token: t.8PjmIUWzIu6vNiQtHIio9Z2KbcfnQqrpr1jO3KdOWZLOtqfq7eQ0P5Z21sws9Z47gMIdB2buOahtbtim8IqZsw
 
 integration:
   rest:
@@ -28,3 +26,7 @@ integration:
 logging:
   level:
     feign: ${LOGGING_LEVEL_ROOT}
+
+springdoc:
+  swagger-ui:
+    path: ${SWAGGER_PATH}

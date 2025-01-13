@@ -12,10 +12,12 @@ data:
   STOCK_IDEAS_URL: "https://www.tbank.ru/api/invest/smartfeed-public/v1/feed/api/ideas?sessionId=1DODhdaBBHo63oINhpMXVlbKL60fMp7h.m1-prod-api-138&appName=web&appVersion=1.479.0&origin=web&limit=100&ticker="
   NEWS_PAGE_URL: "https://www.tbank.ru/invest/social/profile/"
   IDEA_PAGE_URL: "https://www.tbank.ru/invest/ideas/"
+  SWAGGER_PATH: "/swagger-ui/analytics-service"
   LOGGING_LEVEL_ROOT: "INFO"
 
   SPRING_RABBITMQ_HOST: "rabbitmq"
   SPRING_RABBITMQ_PORT: "5672"
   SPRING_RABBITMQ_USERNAME: "lissa_user"
   SPRING_RABBITMQ_PASSWORD: "secure_password"
+
 
