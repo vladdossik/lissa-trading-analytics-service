@@ -4,8 +4,8 @@ metadata:
   name: lissa-trading-analytics-service-config
 data:
   SERVER_PORT: "8084"
-  TINKOFF_API_SERVICE_URL: "http://lissa-trading-tinkoff-api-service:8082"
-  AUTH_SERVICE_URL: "http://localhost:8081"
+  TINKOFF_API_SERVICE_URL: "http://lissa-trading-tinkoff-api-service:82"
+  AUTH_SERVICE_URL: "http://lissa-trading-auth-service:81"
   FINAM_NEWS_URL: "https://www.finam.ru/analysis/conews/rsspoint/"
   BRANDS_INFO_URL: "https://www.tbank.ru/api/trading/symbols/brands?sessionId=bQNqf8OaUMb35kPn0LvAtX3QwMFoO7zC.m1-prod-api-138&appName=web&appVersion=1.480.0&origin=web"
   STOCK_NEWS_URL: "https://www.tbank.ru/api/invest-gw/social/post/feed/v1/feed?sessionId=29II0ESsZFHp6qT3IkFgwkpVuJQcEfWB.m1-prod-api-138&appName=invest&appVersion=1.480.0&origin=web&platform=web&limit=9999999"

@@ -11,6 +11,7 @@ import lissa.trading.analytics.service.security.SecurityContextHelper;
 import lissa.trading.analytics.service.security.WebSecurityConfig;
 import lissa.trading.lissa.auth.lib.dto.UserInfoDto;
 import lissa.trading.lissa.auth.lib.feign.AuthServiceClient;
+import lissa.trading.lissa.auth.lib.security.EncryptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +47,8 @@ public class IndicatorServiceImpl implements IndicatorService {
 
         if (SecurityContextHelper.getCurrentUser() != null
                 && SecurityContextHelper.getCurrentUser().getTinkoffToken() != null) {
-            tinkoffTokenDto.setToken(SecurityContextHelper.getCurrentUser().getTinkoffToken());
+            String encodedToken = SecurityContextHelper.getCurrentUser().getTinkoffToken();
+            tinkoffTokenDto.setToken(EncryptionService.decrypt(encodedToken));
         }
         else {
             log.error("Tinkoff token does not exists for current user: {}, token: {}",

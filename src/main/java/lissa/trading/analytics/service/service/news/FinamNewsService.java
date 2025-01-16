@@ -6,6 +6,7 @@ import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
 import lissa.trading.analytics.service.security.SecurityContextHelper;
+import lissa.trading.lissa.auth.lib.security.EncryptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,10 +57,13 @@ public class FinamNewsService implements NewsService {
 
         if (SecurityContextHelper.getCurrentUser() != null
                 && SecurityContextHelper.getCurrentUser().getTinkoffToken() != null) {
-            tinkoffTokenDto.setToken(SecurityContextHelper.getCurrentUser().getTinkoffToken());
+            String encodedToken = SecurityContextHelper.getCurrentUser().getTinkoffToken();
+            tinkoffTokenDto.setToken(EncryptionService.decrypt(encodedToken));
         }
         else {
-            throw new SecurityException("Tinkoff API token not set");
+            log.error("Tinkoff token does not exists for current user: {}, token: {}",
+                    SecurityContextHelper.getCurrentUser(), SecurityContextHelper.getCurrentUser().getTinkoffToken());
+            throw new SecurityException("Tinkoff API token not found");
         }
         stockServiceClient.setTinkoffToken(tinkoffTokenDto);
     }

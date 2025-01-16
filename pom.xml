@@ -105,7 +105,7 @@
 		<dependency>
 			<groupId>com.github.vladdossik</groupId>
 			<artifactId>lissa-trading-auth-lib</artifactId>
-			<version>v0.0.5</version>
+			<version>v0.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>

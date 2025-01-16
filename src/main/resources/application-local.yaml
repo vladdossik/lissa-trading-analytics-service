@@ -19,7 +19,3 @@ integration:
 logging:
   level:
     feign: DEBUG
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui/analytics-service

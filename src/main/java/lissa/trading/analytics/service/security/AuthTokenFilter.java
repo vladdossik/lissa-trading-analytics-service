@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +27,9 @@ public class AuthTokenFilter extends BaseAuthTokenFilter<UserInfoDto> {
     @Override
     protected UserInfoDto retrieveUserInfo(String token) {
         try {
+            log.info("Trying to retrieve user info from token {}", token);
             UserInfoDto userInfoDto = authServiceClient.getUserInfo("Bearer " + token);
+            log.info("userInfoDto: {}", userInfoDto);
             if (userInfoDto != null) {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userInfoDto, token, List.of());
@@ -35,7 +38,7 @@ public class AuthTokenFilter extends BaseAuthTokenFilter<UserInfoDto> {
             return userInfoDto;
         } catch (Exception ex) {
             log.error("Failed to retrieve user info from auth service: {}", ex.getMessage());
+            log.error(Arrays.toString(ex.getStackTrace()));
             return null;
         }
-    }
-}
+    }}
