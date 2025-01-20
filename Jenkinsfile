@@ -5,7 +5,7 @@ pipeline {
         MAVEN_HOME = '/usr/share/maven'
         GITHUB_REPO = 'vladdossik/lissa-trading-analytics-service'
         DOCKER_IMAGE = 'kenpxrk1/lissa-trading-analytics-service'
-        DOCKER_TAG = 'latest'
+        DOCKER_TAG = "${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'kenpxrk1_dockerhub_credentials'
     }
 
@@ -72,7 +72,7 @@ pipeline {
                                 }
                                 sh """
                                 kubectl set image deployment/lissa-trading-analytics-service \
-                                analytics-service=${DOCKER_IMAGE}:${DOCKER_TAG}
+                                analytics-service=${DOCKER_IMAGE}:${DOCKER_TAG} --record
                                 """
                             }
                         }
@@ -81,22 +81,28 @@ pipeline {
     }
 
     post {
-            always {
-                script {
-                    def contexts = [
-                        'Checkout code',
-                        'Build stage in progress',
-                        'Test stage in progress',
-                        'Docker build in progress',
-                        'Docker push in progress',
-                        'Kubernetes deployment in progress'
-                    ]
-                    contexts.each { context ->
-                        setGitHubCommitStatus(currentBuild.result ?: 'SUCCESS', 'Pipeline finished', context)
-                    }
+        success {
+            echo "Deployment successful with version ${DOCKER_TAG}"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+        always {
+            script {
+               def contexts = [
+                    'Checkout code',
+                    'Build stage in progress',
+                    'Test stage in progress',
+                    'Docker build in progress',
+                    'Docker push in progress',
+                    'Kubernetes deployment in progress'
+                ]
+                contexts.each { context ->
+                    setGitHubCommitStatus(currentBuild.result ?: 'SUCCESS', 'Pipeline finished', context)
                 }
             }
         }
+    }
 }
 
 def setGitHubCommitStatus(state, description, context) {
