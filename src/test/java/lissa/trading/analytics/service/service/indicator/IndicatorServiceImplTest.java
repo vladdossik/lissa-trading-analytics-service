@@ -10,6 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collections;
 
@@ -39,6 +43,17 @@ class IndicatorServiceImplTest extends AbstractInitialization {
     @BeforeEach
     void setToken(){
         doNothing().when(stockServiceClientMock).setTinkoffToken(any());
+    }
+
+    @BeforeEach
+    void getTinkoffApiToken() {
+        SecurityContext securityContextMock = Mockito.mock(SecurityContext.class);
+        Authentication authenticationMock = Mockito.mock(Authentication.class);
+
+        when(securityContextMock.getAuthentication()).thenReturn(authenticationMock);
+        when(authenticationMock.getPrincipal()).thenReturn(userInfoDto);
+
+        SecurityContextHolder.setContext(securityContextMock);
     }
 
     @Test

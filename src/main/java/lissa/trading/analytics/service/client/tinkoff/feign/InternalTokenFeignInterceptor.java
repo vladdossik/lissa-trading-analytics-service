@@ -16,7 +16,11 @@ public class InternalTokenFeignInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        requestTemplate.header("Authorization",
-                new String(Base64.getDecoder().decode(internalToken), StandardCharsets.UTF_8).trim());
+        String url = requestTemplate.url();
+        if (url.contains("/internal")) {
+            requestTemplate.header("Authorization",
+                    new String(Base64.getDecoder().decode(internalToken), StandardCharsets.UTF_8).trim());
+        }
     }
 }
+

@@ -5,9 +5,11 @@ import lissa.trading.analytics.service.client.tinkoff.dto.CompanyNamesDto;
 import lissa.trading.analytics.service.client.tinkoff.dto.TinkoffTokenDto;
 import lissa.trading.analytics.service.client.tinkoff.feign.StockServiceClient;
 import lissa.trading.analytics.service.dto.NewsResponseDto;
+import lissa.trading.lissa.auth.lib.dto.UserInfoDto;
+import lissa.trading.lissa.auth.lib.security.EncryptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -17,9 +19,6 @@ import java.util.List;
 @Service("finamService")
 @RequiredArgsConstructor
 public class FinamNewsService implements NewsService {
-
-    @Value("${security.tinkoff.token}")
-    private String tinkoffApiToken;
 
     private final FinamClient finamClient;
     private final NewsXmlParser newsXmlParser;
@@ -54,7 +53,19 @@ public class FinamNewsService implements NewsService {
     }
 
     private void setTinkoffApiToken() {
-        log.info("Requesting tinkoff-api-service for set tinkoff-token");
-        stockServiceClient.setTinkoffToken(new TinkoffTokenDto(tinkoffApiToken));
+        TinkoffTokenDto tinkoffTokenDto = new TinkoffTokenDto();
+        UserInfoDto userInfoDto = (UserInfoDto) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        if (userInfoDto.getTinkoffToken() != null) {
+            String encodedToken = userInfoDto.getTinkoffToken();
+            tinkoffTokenDto.setToken(EncryptionService.decrypt(encodedToken));
+        } else {
+            log.error("Tinkoff token invalid or does not exists for current user: {}, token: {}",
+                    userInfoDto.getExternalId(), userInfoDto.getTinkoffToken());
+            throw new SecurityException("Tinkoff API token not found");
+        }
+        stockServiceClient.setTinkoffToken(tinkoffTokenDto);
     }
 }

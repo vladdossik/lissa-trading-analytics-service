@@ -30,7 +30,7 @@ public class NewsController {
     @Operation(summary = "Получить новости по компаниям",
             description = "Возвращает финансовые новости по запрошенным компаниям")
     @ApiResponse(responseCode = "200", description = "Новости успешно получены",
-            content = @Content(schema = @Schema(implementation = IndicatorsDto.class)))
+            content = @Content(schema = @Schema(implementation = NewsSourceResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     @GetMapping
     List<NewsSourceResponseDto> getNews(@RequestParam @NotEmpty List<String> tickers) {

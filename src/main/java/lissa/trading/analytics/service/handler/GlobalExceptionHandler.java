@@ -6,6 +6,7 @@ import lissa.trading.analytics.service.exception.CandlesNotFoundException;
 import lissa.trading.analytics.service.exception.FinamClientException;
 import lissa.trading.analytics.service.exception.Messages;
 import lissa.trading.analytics.service.exception.TinkoffPulseClientException;
+import lissa.trading.analytics.service.exception.TinkoffTokenException;
 import lissa.trading.analytics.service.exception.UnsupportedSourceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -68,6 +69,15 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = new ErrorResponse("BAD_REQUEST",
                 messages.getMessage("error.unsupported.source"), status.value());
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler(TinkoffTokenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleUnsupportedSourceException(TinkoffTokenException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = new ErrorResponse("BAD_REQUEST",
+                messages.getMessage("error.token.notfound"), status.value());
         return new ResponseEntity<>(errorResponse, status);
     }
 }

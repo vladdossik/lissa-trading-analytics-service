@@ -1,0 +1,32 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
+
+security:
+  internal:
+    token: ${SECURITY_INTERNAL_TOKEN}
+
+integration:
+  rest:
+    tinkoff-api-service-url: ${TINKOFF_API_SERVICE_URL}
+    finam-news-rss-url: ${FINAM_NEWS_URL}
+    auth-service-url: ${AUTH_SERVICE_URL}
+  pulse:
+    brands-info-url: ${BRANDS_INFO_URL}
+    stock-news-url: ${STOCK_NEWS_URL}
+    stock-ideas-url: ${STOCK_IDEAS_URL}
+    news-page-url: ${NEWS_PAGE_URL}
+    idea-page-url: ${IDEA_PAGE_URL}
+logging:
+  level:
+    feign: ${LOGGING_LEVEL_ROOT}
+
+springdoc:
+  swagger-ui:
+    path: ${SWAGGER_PATH}

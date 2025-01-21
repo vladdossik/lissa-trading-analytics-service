@@ -4,14 +4,12 @@ server:
 security:
   internal:
     token: WVc1aGJIbDBhV056TFdsdWRHVnlibUZzTFd0bGVRCg==
-  tinkoff:
-    # Paste your tinkoff-invest token for test this service
-    token: t.8PjmIUWzIu6vNiQtHIio9Z2KbcfnQqrpr1jO3KdOWZLOtqfq7eQ0P5Z21sws9Z47gMIdB2buOahtbtim8IqZsw
 
 integration:
   rest:
     tinkoff-api-service-url: http://localhost:8082
     finam-news-rss-url: https://www.finam.ru/analysis/conews/rsspoint/
+    auth-service-url: http://localhost:8081
   pulse:
     brands-info-url: https://www.tbank.ru/api/trading/symbols/brands?sessionId=bQNqf8OaUMb35kPn0LvAtX3QwMFoO7zC.m1-prod-api-138&appName=web&appVersion=1.480.0&origin=web
     stock-news-url: https://www.tbank.ru/api/invest-gw/social/post/feed/v1/feed?sessionId=29II0ESsZFHp6qT3IkFgwkpVuJQcEfWB.m1-prod-api-138&appName=invest&appVersion=1.480.0&origin=web&platform=web&limit=9999999

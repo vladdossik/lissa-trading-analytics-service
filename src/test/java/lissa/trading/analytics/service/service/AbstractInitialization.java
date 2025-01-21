@@ -24,6 +24,8 @@ import lissa.trading.analytics.service.dto.TinkoffPulse.news.NewsOwnerDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.NewsTickerDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.PayloadNewsDto;
 import lissa.trading.analytics.service.dto.TinkoffPulse.news.StockNewsDto;
+import lissa.trading.lissa.auth.lib.dto.UserInfoDto;
+import lissa.trading.lissa.auth.lib.security.EncryptionService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -50,6 +52,7 @@ public abstract class AbstractInitialization {
     protected static CandlesDto candlesDto;
     protected static IndicatorsDto indicatorsDto;
     protected static TinkoffCandlesRequestDto tinkoffCandlesRequestDto;
+    protected static UserInfoDto userInfoDto;
 
     @BeforeAll
     public static void init() {
@@ -191,6 +194,9 @@ public abstract class AbstractInitialization {
         indicatorsDto = new IndicatorsDto(126.5, 126.5, 100.0);
         tinkoffCandlesRequestDto = new TinkoffCandlesRequestDto("uid", OffsetDateTime.now(), OffsetDateTime.now(),
                 CandleInterval.CANDLE_INTERVAL_DAY);
+
+        userInfoDto = new UserInfoDto();
+        userInfoDto.setTinkoffToken(EncryptionService.encrypt("TestToken"));
 
     }
 }

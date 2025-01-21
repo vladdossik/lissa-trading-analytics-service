@@ -11,6 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +44,17 @@ class FinamNewsServiceTest extends AbstractInitialization {
     @BeforeEach
     void setToken() {
         doNothing().when(stockServiceClientMock).setTinkoffToken(any());
+    }
+
+    @BeforeEach
+    void getTinkoffApiToken() {
+        SecurityContext securityContextMock = Mockito.mock(SecurityContext.class);
+        Authentication authenticationMock = Mockito.mock(Authentication.class);
+
+        when(securityContextMock.getAuthentication()).thenReturn(authenticationMock);
+        when(authenticationMock.getPrincipal()).thenReturn(userInfoDto);
+
+        SecurityContextHolder.setContext(securityContextMock);
     }
 
     @Test
@@ -93,5 +107,4 @@ class FinamNewsServiceTest extends AbstractInitialization {
             assertEquals(result, new NewsResponseDto(Collections.emptyList()));
         }
     }
-
 }
