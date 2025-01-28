@@ -7,9 +7,12 @@ security:
 
 integration:
   rest:
-    tinkoff-api-service-url: http://localhost:8082
     finam-news-rss-url: https://www.finam.ru/analysis/conews/rsspoint/
     auth-service-url: http://localhost:8081
+    services:
+      tinkoff-api:
+        url: http://localhost:8082
+        token: ZEdsdWEyOW1aa0Z3YVMxcGJuUmxjbTVoYkMxclpYaz0K
   pulse:
     brands-info-url: https://www.tbank.ru/api/trading/symbols/brands?sessionId=bQNqf8OaUMb35kPn0LvAtX3QwMFoO7zC.m1-prod-api-138&appName=web&appVersion=1.480.0&origin=web
     stock-news-url: https://www.tbank.ru/api/invest-gw/social/post/feed/v1/feed?sessionId=29II0ESsZFHp6qT3IkFgwkpVuJQcEfWB.m1-prod-api-138&appName=invest&appVersion=1.480.0&origin=web&platform=web&limit=9999999

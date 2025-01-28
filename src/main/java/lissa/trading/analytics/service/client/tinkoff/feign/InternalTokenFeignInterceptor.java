@@ -2,25 +2,39 @@ package lissa.trading.analytics.service.client.tinkoff.feign;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import lissa.trading.analytics.service.security.internal.InternalTokenService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-@Component
+@RequiredArgsConstructor
+@Slf4j
 public class InternalTokenFeignInterceptor implements RequestInterceptor {
 
-    @Value("${security.internal.token}")
-    private String internalToken;
+    private final InternalTokenService tokenService;
 
     @Override
-    public void apply(RequestTemplate requestTemplate) {
-        String url = requestTemplate.url();
-        if (url.contains("/internal")) {
-            requestTemplate.header("Authorization",
-                    new String(Base64.getDecoder().decode(internalToken), StandardCharsets.UTF_8).trim());
+    public void apply(RequestTemplate template) {
+        try {
+            String baseUrl = getBaseUrl(new URI(template.feignTarget().url()));
+            template.header("Authorization", new String(
+                    Base64.getDecoder().decode(tokenService.getTokenByUrl(baseUrl)), StandardCharsets.UTF_8).trim());
+        } catch(URISyntaxException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private String getBaseUrl(URI uri) throws URISyntaxException {
+        return new URI(uri.getScheme(),
+                       uri.getAuthority(),
+                       null,
+                       null,
+                       null)
+                .toString();
     }
 }
 
