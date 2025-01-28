@@ -1,6 +1,8 @@
 spring:
+  application:
+    name: analytics-service
   profiles:
-    active: local
+    active: prod
   messages:
     basename: messages
     encoding: UTF-8
