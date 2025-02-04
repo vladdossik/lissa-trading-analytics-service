@@ -14,15 +14,19 @@ security:
 
 integration:
   rest:
-    tinkoff-api-service-url: ${TINKOFF_API_SERVICE_URL}
     finam-news-rss-url: ${FINAM_NEWS_URL}
     auth-service-url: ${AUTH_SERVICE_URL}
+    services:
+      tinkoff-api:
+        url: ${TINKOFF_API_SERVICE_URL}
+        token: ${TINKOFF_API_SERVICE_TOKEN}
   pulse:
     brands-info-url: ${BRANDS_INFO_URL}
     stock-news-url: ${STOCK_NEWS_URL}
     stock-ideas-url: ${STOCK_IDEAS_URL}
     news-page-url: ${NEWS_PAGE_URL}
     idea-page-url: ${IDEA_PAGE_URL}
+
 logging:
   level:
     feign: ${LOGGING_LEVEL_ROOT}
