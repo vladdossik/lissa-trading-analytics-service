@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <conversionRule conversionWord="clr"
-                    converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
 
-    <springProperty name="CONSOLE_LOG_PATTERN"
-                    source="logging.pattern.console"/>
+    <springProperty name="CONSOLE_LOG_PATTERN" source="logging.pattern.console"/>
     <springProperty name="springAppName" source="spring.application.name" />
-
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
