@@ -13,6 +13,7 @@ data:
   NEWS_PAGE_URL: "https://www.tbank.ru/invest/social/profile/"
   IDEA_PAGE_URL: "https://www.tbank.ru/invest/ideas/"
   ZIPKIN_URL: "http://103.249.132.74:9411/api/v2/spans"
+  LOKI_URL: "http://loki:3100"
   SWAGGER_PATH: "/swagger-ui/analytics-service"
   LOGGING_LEVEL_ROOT: "INFO"
 
